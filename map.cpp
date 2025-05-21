@@ -3,6 +3,8 @@
 #include <set>
 #include <string>
 #include <random>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -82,6 +84,7 @@ int main() {
     while (true) {
         cout << "Arah (utara/selatan/timur/barat, atau 'keluar' untuk berhenti): ";
         cin >> input;
+        transform(input.begin(), input.end(), input.begin(), ::tolower); // Ubah ke huruf kecil
 
         if (input == "keluar") break;
 
