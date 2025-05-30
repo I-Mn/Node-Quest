@@ -77,6 +77,34 @@ void tampilkan_edges() {
 }
 
 int main() {
+    cout << R"(                            
+                         ;;:::::;;                 
+                        :         X                
+                        x+:.+X;;+.X                
+                       x++:X X:;X X                
+                       $ .++:;.:+ X                
+                       +::+ .     X                
+                      .;:x++;+::  X                
+                        ; + .:;   X                
+                        .+;  .;   X                
+                         $  .     X                
+                         X;     .:X                
+                        .:+      +$.               
+                        ; +       X;               
+                        ; ;       XX               
+                        ;$+      +XX               
+                        X&:     .;:$.              
+                      .+; +.:...$ X.+              
+                     +.X  + X + .:                 
+                   .$ X   ;.: $ +.                 
+                  .+.;    +.: $ X.                 
+                 ::::     ; X $ .:                 
+               .;. ;      x X ::.:                 
+              +   :;      ;.+. ++.                 
+            .X   ::       .:X  +$.                 
+            ;.  :;     ..:: +: ;x.                 
+            :;:::   .:.   ...;; .:.                
+                    .:..::  ::  .::)"<< endl;
     pair<int, int> posisi = {0, 0};  // Posisi awal
     vertices.insert(posisi);
 
@@ -108,7 +136,7 @@ int main() {
                 case Tipe::NPC: tipe_str = "NPC"; break;
                 case Tipe::BONUS: tipe_str = "BONUS"; break;
             }
-
+    system("cls");
     cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";
     } else {
             cout << "Arah tidak dikenali. Gunakan utara/selatan/timur/barat.\n";
