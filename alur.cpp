@@ -72,6 +72,25 @@ void ending() {
     waitForEnter();
 }
 
+/// Ini buat mekanisme naik stagenya ngikutin level, tapi harus ada data level dari PlayerStats //
+
+void NaikLevel(const PlayerStats& player, int& stage) {
+    if (player.level > 30 && stage < 4) {
+        stage = 4;
+        ending();
+    } else if (player.level > 20 && stage < 3) {
+        stage = 3;
+        stage3();
+    } else if (player.level > 10 && stage < 2) {
+        stage = 2;
+        stage2();
+    } else if (player.level > 0 && stage < 1) {
+        stage = 1;
+        stage1();
+    }
+}
+
+
 int main() {
     showIntro();
     stage1();
