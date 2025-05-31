@@ -5,6 +5,7 @@
 #include <random>
 #include <algorithm>
 #include <cctype>
+#include <queue>
 
 using namespace std;
 
@@ -76,19 +77,90 @@ void tampilkan_edges() {
     }
 }
 
+// Fungsi cari npc
+pair<pair<int, int>, vector<string>> cari_npc(pair<int, int> mulai) {
+    queue <pair<int, int>> q;
+    map <pair<int, int>, pair<int, int>> parent;
+    set<pair<int, int>> visited;
+
+    q.push(mulai);
+    visited.insert(mulai);
+
+    while (!q.empty()){
+        pair<int, int> current  = q.front();
+        q.pop();
+
+        if (vertex_map[current].tipe == Tipe::NPC && current != mulai){
+            vector<pair<int, int>> path;
+            pair<int, int> step = current;
+            while (step != mulai) {
+                path.push_back(step);
+                step = parent[step];
+            }
+            reverse(path.begin(), path.end());
+
+            vector<string> arah_jalan;
+            pair <int, int> prev = mulai;
+            for (const auto& pos : path) {
+                if (pos.first > prev.first) {
+                    arah_jalan.push_back("timur");
+                } else if (pos.first < prev.first) {
+                    arah_jalan.push_back("barat");
+                } else if (pos.second > prev.second) {
+                    arah_jalan.push_back("utara");
+                } else if (pos.second < prev.second) {
+                    arah_jalan.push_back("selatan");
+                }
+                prev = pos;
+            }
+            return {current, arah_jalan};
+        }
+        for (const auto& p : arah) {
+            const auto& delta = p.second;
+            pair<int, int> tujuan = {current.first + delta.first, current.second + delta.second};
+            pair<pair<int, int>, pair<int, int>> edge = (current < tujuan)
+                ? make_pair(current, tujuan)
+                : make_pair(tujuan, current);
+
+            if (edges.find(edge) != edges.end() && visited.find(tujuan) == visited.end()) {
+                q.push(tujuan);
+                visited.insert(tujuan);
+                parent[tujuan] = current;
+            }
+
+        }
+    }
+    return {{-9999, -9999}, {}};
+}
+
 int main() {
     pair<int, int> posisi = {0, 0};  // Posisi awal
     vertices.insert(posisi);
+    vertex_map[posisi] = vertexData(); // Inisialisasi vertex awal
 
     string input;
     while (true) {
         cout << "Arah (utara/selatan/timur/barat, atau 'keluar' untuk berhenti): ";
-        cin >> input;
+        getline(cin, input);
         transform(input.begin(), input.end(), input.begin(), ::tolower); // Ubah ke huruf kecil
 
-        if (input == "keluar") break;
+        if (input == "keluar") {break;}
+        else if (input == "cari npc") {
+            auto result = cari_npc(posisi);
+            if (result.first.first == -9999) {
+                cout << "NPC tidak ditemukan.\n";
+            } else {
+                cout << "NPC ditemukan di: (" << result.first.first << ", " << result.first.second << ")\n";
+                cout << "Arah yang harus diambil: ";
+                for (const auto& arah : result.second) {
+                    cout << arah << " ";
+                }
+                cout << "\n";
+            }
+            continue;
+        }
 
-        if (arah.find(input) != arah.end()) {
+        else if (arah.find(input) != arah.end()) {
             pair<int, int> delta = arah[input];
             pair<int, int> tujuan = {posisi.first + delta.first, posisi.second + delta.second};
              // Jika vertex tujuan belum ada di vertex_map, buat vertexData baru
@@ -108,7 +180,7 @@ int main() {
                 case Tipe::NPC: tipe_str = "NPC"; break;
                 case Tipe::BONUS: tipe_str = "BONUS"; break;
             }
-
+    system("cls");
     cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";
     } else {
             cout << "Arah tidak dikenali. Gunakan utara/selatan/timur/barat.\n";
