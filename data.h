@@ -1,18 +1,35 @@
+#ifndef DATA_H
+#define DATA_H
 #include <iostream>
 #include <map>
 #include <set>
 #include <string>
-
+#include <random>
+#include <algorithm>
+#include <cctype>
+#include <queue>
+using namespace std;
 
 // Algoritma Randomizer
-  std::random_device rd;
-    std::mt19937 gen(rd());
+std::random_device rd;
+std::mt19937 gen(rd());
 int randomizer(int min, int max) {
     std::uniform_int_distribution<> distrib(min, max);
-
     int angka_random = distrib(gen);
     return angka_random;
 }
+
+// Data NPC
+enum class NPCType { GOBLIN, WANITA_ANEH };
+
+struct Player
+{
+    int HP = 100;
+    int healing_poison = 0;
+    int magic_poison = 0;
+};
+
+
 
 // Data vertex
 enum class Tipe { EMPTY, MONSTER, NPC, BONUS };
@@ -34,11 +51,10 @@ struct vertexData {
         else if (x > 90 && x <= 99){
             tipe =  Tipe::NPC;
             npc_type = static_cast<NPCType>(randomizer(0, 1)); // 0 for GOBLIN, 1 for WANITA_ANEH
-    } else {
+        } else {
             tipe = Tipe::BONUS;
         }
     }
-
 };
 
 // Map arah mata angin ke perubahan koordinat (delta x, delta y)
@@ -55,10 +71,6 @@ set<pair<pair<int, int>, pair<int, int>>> edges;
 // Menyimpan semua koordinat (vertex) yang sudah dikunjungi
 set<pair<int, int>> vertices;
 
+map <pair<int, int>, vertexData> vertex_map;
 
-
-map <pair<int, int>, struct vertexData> vertex_map;
-
-
-// Data NPC
-enum class NPCType { GOBLIN, WANITA_ANEH };
+#endif

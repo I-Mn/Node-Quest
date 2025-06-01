@@ -1,12 +1,6 @@
 #include <iostream>
 using namespace std;
-
-struct Player
-{
-    int HP = 100;
-    int healing_poison = 0;
-    int magic_poison = 0;
-};
+#include "data.h"
 
 void npc_goblin(Player player)
 {
