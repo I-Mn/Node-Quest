@@ -13,6 +13,7 @@ struct PlayerStats {
     int skillPoint = 10;
     int exp = 0;
     int level = 1;
+    int stage = 0;
 };
 
 // Upgrade Stat Tree
@@ -162,6 +163,8 @@ void tampilkanStats(const PlayerStats& p) {
          << "\nCounter: " << p.counter << "\nEvade: " << p.evade
          << "\nSkill Point: " << p.skillPoint << endl;
     cout << "Poison Buff aktif giliran: " << poisonBuffTurns << endl;
+    cout << "Exp: " << p.exp << "\nLevel: " << p.level << endl;
+    cout << "Stage:" << p.stage << endl;
 }
 
 // Void Naikin Level dan Stage
