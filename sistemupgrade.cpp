@@ -13,22 +13,24 @@ struct PlayerStats {
 };
 
 struct UpgradeNode {
-    string statName;     // "hp", "attack", etc
-    int level;           // 1, 2, 3...
-    int bonusValue;      // Tambahan stat kalau upgrade
+    string statName;
+    int level;
+    int bonusValue;
     bool unlocked;
-    UpgradeNode* next;   // anak: upgrade selanjutnya
+    UpgradeNode* next;
 };
 
+// Fungsi untuk buat node level berikutnya secara dinamis
+UpgradeNode* createNextNode(UpgradeNode* prev) {
+    int nextLevel = prev->level + 1;
+    int bonus = (int)(prev->bonusValue * 1.5); // skala bonus
+    UpgradeNode* newNode = new UpgradeNode{prev->statName, nextLevel, bonus, false, nullptr};
+    prev->next = newNode;
+    return newNode;
+}
+
 UpgradeNode* buildStatTree(string statName, int baseBonus) {
-    UpgradeNode* lv1 = new UpgradeNode{statName, 1, baseBonus, false, nullptr};
-    UpgradeNode* lv2 = new UpgradeNode{statName, 2, (int)(baseBonus * 1.5), false, nullptr};
-    UpgradeNode* lv3 = new UpgradeNode{statName, 3, (int)(baseBonus * 1.5 * 1.5), false, nullptr};
-
-    lv1->next = lv2;
-    lv2->next = lv3;
-
-    return lv1;
+    return new UpgradeNode{statName, 1, baseBonus, false, nullptr};
 }
 
 void upgradeFromTree(PlayerStats& player, UpgradeNode* node) {
@@ -37,13 +39,13 @@ void upgradeFromTree(PlayerStats& player, UpgradeNode* node) {
         return;
     }
 
-    while (node != nullptr && node->unlocked) {
-        node = node->next;
-    }
-
-    if (node == nullptr) {
-        cout << "Upgrade maksimum tercapai untuk stat ini.\n";
-        return;
+    // Cari node upgrade berikutnya yang belum terbuka
+    while (node->unlocked) {
+        if (node->next == nullptr) {
+            node = createNextNode(node); // Buat node baru kalau belum ada
+        } else {
+            node = node->next;
+        }
     }
 
     node->unlocked = true;
