@@ -13,7 +13,7 @@ struct PlayerStats {
     int skillPoint = 10;
     int exp = 0;
     int level = 1;
-    int stage = 0;
+    int stage = 1;
 };
 
 // Upgrade Stat Tree
