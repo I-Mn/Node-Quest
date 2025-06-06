@@ -10,6 +10,8 @@ struct PlayerStats {
     int counter = 25;
     int evade = 25;
     int skillPoint = 10;
+    int exp = 0;
+    int level = 1;
 };
 
 // Upgrade Stat Tree
@@ -160,6 +162,43 @@ void tampilkanStats(const PlayerStats& p) {
          << "\nSkill Point: " << p.skillPoint << endl;
     cout << "Poison Buff aktif giliran: " << poisonBuffTurns << endl;
 }
+
+// Void Naikin Level dan Stage
+
+void checkExpAndLevelUp(PlayerStats& player) {
+    const int expThreshold = 100;
+    while (player.exp >= expThreshold) {
+        player.exp -= expThreshold;
+        player.level++;
+        player.skillPoint += 1; // misal dapat skill point tiap naik level
+        cout << "Level naik! Sekarang level " << player.level << endl;
+    }
+}
+
+void checkLevelAndUpdateStage(PlayerStats& player, int& stage) {
+    int newStage = player.level / 10;  // misal level 23 -> stage 2 (karena 23/10=2)
+    if (newStage > stage) {
+        stage = newStage;
+        switch(stage) {
+            case 1:
+                stage1();
+                break;
+            case 2:
+                stage2();
+                break;
+            case 3:
+                stage3();
+                break;
+            case 4:
+                ending();
+                break;
+            default:
+                cout << "Stage tidak dikenal.\n";
+                break;
+        }
+    }
+}
+
 
 int main() {
     PlayerStats player;
