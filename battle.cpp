@@ -3,37 +3,27 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
+#include <thread>
 using namespace std;
 
-// Enum untuk skill
 enum Skill { ATTACK, MAGIC, COUNTER, DODGE };
 
-// Struktur Musuh
 struct Enemy {
     string name;
     int hp;
-    int expReward;
+    int difficultyLevel;  // 1: mudah, 2: sedang, 3: sulit
 };
 
-// Struktur Pemain
-struct Player {
-    int hp = 0;          
-    int level = 1;
-    int exp = 0;
-
-    void gainReward(int amount) {
-        hp += amount;
-        if (hp > 100) hp = 100; // Batas maksimal HP 100
-        cout << "\nKamu menang! Mendapat +" << amount << " HP. Total HP sekarang: " << hp << endl;
-    }
-    
-
-    bool isAlive() {
-        return hp > 0;
-    }
+struct PlayerStats {
+    int hp = 100;
+    int attack = 25;
+    int magic = 25;
+    int counter = 25;
+    int evade = 25;
+    int skillPoint = 0;
 };
 
-// Konversi skill ke string
 string skillToString(Skill s) {
     switch (s) {
         case ATTACK: return "Attack";
@@ -44,12 +34,10 @@ string skillToString(Skill s) {
     }
 }
 
-// Random skill musuh
 Skill getRandomSkill() {
     return static_cast<Skill>(rand() % 4);
 }
 
-// Penentuan hasil pertarungan suit
 string resolveBattle(Skill player, Skill enemy) {
     if (player == enemy)
         return "draw";
@@ -60,16 +48,194 @@ string resolveBattle(Skill player, Skill enemy) {
     return "enemy";
 }
 
-// Pertarungan 
-bool fightEnemy(Player& player, Enemy& enemy) {
+bool attemptDodge(PlayerStats& player, Enemy& enemy) {
+    int base = 30 * enemy.difficultyLevel;
+    float successChance = static_cast<float>(player.evade) / base;
+    float roll = static_cast<float>(rand()) / RAND_MAX;
+
+    cout << "\nDodge attempt (peluang: " << (int)(successChance * 100) << "%) ";
+    cout << flush;
+    for (int i = 0; i < 3; ++i) {
+        this_thread::sleep_for(chrono::milliseconds(500)); // jeda 0.5 detik per titik
+        cout << "." << flush;
+    }
+    cout << endl;
+
+    if (roll < successChance) {
+        cout << "Berhasil menghindar!\n";
+        return true;
+    } else {
+        cout << "Gagal menghindar! Musuh menyerang!\n";
+        return false;
+    }
+}
+
+// Fungsi ASCII
+string getEnemyAscii(const Enemy& enemy) { 
+    if (enemy.name == "Tung Tung Sahur") {
+        return R"(
+            :::::::           
+           .::: ::;.          
+           .+x+.+X;.          
+           :;x;:++::          
+           .;.;:;:::          
+            +;::;:;.          
+            +:;.::+.          
+           ;+:. ::+;          
+          :;;:. ::++;         
+          +;+.. ::;.;.        
+         .+X:.. ::;;X:        
+       ::;:..:+.+:: :         
+    .;.::   ;.: :.;           
+  ::: ;.    +:   ;;           
+ :. ;:      ;:   :;           
+  ::        ;;  .::           
+         .;;.;: + :;:         
+         ;+;;.   :++;                
+        )";  
+    } else if (enemy.name == "Tralalero Tralala") {
+        return R"(
+                         :;                       
+                       :; +                       
+                      :. :.                     ;:
+                 .:;+:   ..                   :+. 
+         :+:::            :.                 ;;.  
+    ;::.           ::.      ;.             :::.   
+ ;:       ++       .+x;       ::          ;:::    
+:;;..  :::::::::;;;;;;.         :;   .   :.:.     
+   :;++::.                        .:.;::;. ;      
+        :;;::.        .;  :. :::  :::::::;;.      
+              ;::;:.    :. ::   .; ;;;; :;;:      
+             :. ;.   ::;:+  :;;;;.;;.;+.  ::      
+            :;:.;;        +  ;    ;$+.:+          
+          :x;   :::       :. ;   x:: :x;          
+       .;;:.+++;::X     .;.;:X;: ;+X+:            
+     +::::::;::;++.    :xX+.;x: :                 
+                     :Xxx;    :+:                 
+                  .;:;+:  x:;x:.+                 
+               :+.        ;;+. .:                 
+              :;:     .:+:.;+.                    
+                 .;+++;.                          
+        )";
+    } else if (enemy.name == "Bombardilo Crocodilo") {
+        return R"(
+                                          ...                                
+                         +*+:        .=*****+=-.        :                    
+                        .%#*=:     :=*%#%#**++=-..     :%*:         ::       
+                        -%%#+=. .:=#####****+++====-:.  .#%=.     :*#=       
+                        +%%%**+****************#%#*+====-:*%#=:: =#*:        
+               .:::::...*%%#**######%#%%%%#*#%%%%%@@%***=+*%%%*++*=.         
+              :*##******#%%#%#*###%%%%%%###%%###%%@%%%%#*+===*%%#+:          
+                 :-=*#%%%%#*%@%*==*%%%%%%%%%%%%%##########**+==+*+--=:       
+       :--:----------==+*###%@@%#+==*%%%%%%@%%%%%%%%%%%%######%%%%#++=:      
+     .=++*+++========+**%%%%%%@@%#**+*%%%%%@%%%%%%@@%%%%%%%%%%%%%#**+==.     
+     :*#********++*****#%%%%#*%@%%*+=%%%%@@@%%%####%%%@@%%*##*#%#%#**=:.     
+      .:::::-===+***###%%%%%##%@%%#**%%%%%%%%%######%%%%@%%***=: :....       
+                       :*%%%%%%@@%%*+*%%%%%%%%%#***#%##%#%%#*+==:            
+                         :+#%%@@%*+-     :=+*****=:.-+*#####*%*==*-.         
+                             -%%-.             +*      .:=+*##**++=-         
+                             *%+               +*           :-***+=:         
+                             ::            .. -**=                           
+                                          :%%*#%%=:.                         
+                                          =%%%%%%#**=.                       
+                                           .:%%%%%%%**:                      
+                                              =*%%%%%*-                      
+                                                 .:..                                                                                                          
+        )";
+    } else if (enemy.name == "Brbr Patapim") {
+        return R"(
+             .::::::                
+         ::::::::;:::;.             
+         ;:...;;;:;;::::            
+        .;;;;;  :;:;+;:;:           
+       :::x;;  .;+;+::              
+      ::;+:;; .;;x; ::              
+     .:;;;::: .::::: :              
+     .;;;;;:;. :. :;: :             
+     .+;.x;:::;;;;;;..              
+    .++;:Xx;. ;::;X;:               
+    ;;+;;;+:  :::x+;:.              
+    ::::;x;:..;:++.+:.              
+  .;;:;;;x+;:; ;;:++;+.             
+ .:::+;:;+;;.++++;;;+;x:            
+  .;++;xx;;::++++:;:;;+;            
+  .+:+;;+.:.: ;:;+ .:;:::           
+  :.:: .  ;;:::::.    :;;;;::...    
+  :.      .:::::::.:::..   :::;;+;. 
+   ...:.  .:::;:::.:: :;;+;.  :::;: 
+       :::: :; ;::;.;;    ; .:;;:   
+          .;;+;;;;+;;+:::.          
+        )";
+    } else if (enemy.name == "Boborito Bandito") {
+        return R"(
+            ..-=-.:-:.                  
+          ..=+@++++++*.                 
+          .=++++++++++*.                
+         .-@@@@@@@@@@@@=:...            
+      :%@@@%==========+@#@@#.           
+      .-%*#==%*=***+=%#+++...           
+      ..+*=++=-=@#%@-=++=%:.            
+      .-+==*#==--+---*#%+=*:.           
+     .+*===+*=--=**---=*===#.           
+      .%*=======*=-+======#=.           
+   .+*++@#*%++#====+=##+%%+++..         
+  .*+*++%###+%..%%#%.:*+%#++**..        
+..#+++*+*#*++++=.@@:=#+++#++*++.    ..  
+.*++++#+#*%*++%#%###+*++*+++*++=...+#-  
+*+**++*++*#%##%%#%#*#**#########=:#:*:..
++++++%*****#****%***#*#*********%%%**%**
+++++++++*%@%#%%******@@@#*%###%%#.......
+:*++++*-##***#%##%#%%%+++#***#*++.      
+...=*+#%%****##++*####+++++#+++*..      
+    .+++*###%*+*+*###*#+#**+-..         
+    .#####+++++**#+###+++*#*+.          
+    .+++++++++++#+*+++++++++*.          
+    -++++++++++#+++*++++++++*.          
+        )";
+    } else if (enemy.name == "Bombombini Guzini") {
+        return R"(
+             +=-                                       
+           =-:+**+                                     
+          -===++==+    ---         ===                 
+         :::+***+*##   +**        -***                 
+               *##%#  +*##*      =+**                  
+               ===+*+ +###*     -+***                  
+              --:::-=+*###*     ****                   
+         **+*+-:::::=*****##+  *****                   
+         ***++-:-----====+++===++++++++===++===+==+++==
+       ------=+**+=*#*+=++#******+=+%%#%==-  *#%%#+++  
+   -=*+-*++==*=+#*+=-+**=*=*#****+=+#%%%+=-  *#%%%===  
++*%*=-*+%##+=+=*****###*++=*******=::---       :--     
+ +*%+==-=++=     *+##*=+++#*##+                        
+                   ++==+*** +++                        
+                   +**      +++                        
+                 +****+     *#*++                      
+                +==++=+=  +==+*++=                     
+                   ++       =++=                       
+        )";
+    }
+    return 0;
+}
+
+
+// Fungsi pertarungan
+bool fightEnemy(PlayerStats& player, Enemy& enemy) {
+    cout << flush;
+    for (int i = 0; i < 3; ++i) {
+        this_thread::sleep_for(chrono::milliseconds(1000)); // jeda 1 detik per titik
+        cout << "." << flush;
+    }
+    cout << endl;
+
     cout << "\n=== Lawan " << enemy.name << " (HP: " << enemy.hp << ") ===\n" << endl;
 
-    // Deskripsi skill
+    cout << getEnemyAscii(enemy) << "\n\n";
+
     cout << "Pilihan Aksi:\n";
     cout << "1. Attack  - Serangan langsung, menang melawan Magic.\n";
     cout << "2. Magic   - Serangan sihir, menang melawan Counter.\n";
     cout << "3. Counter - Menangkis serangan fisik, menang melawan Attack.\n";
-    cout << "4. Dodge   - Menghindari serangan, tidak menyerang balik.\n";
+    cout << "4. Dodge   - Menghindari serangan, tergantung stat evade.\n";
 
     int choice;
     while (true) {
@@ -89,59 +255,76 @@ bool fightEnemy(Player& player, Enemy& enemy) {
     Skill enemySkill = getRandomSkill();
 
     cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
+    cout << flush;
+    for (int i = 0; i < 3; ++i) {
+        this_thread::sleep_for(chrono::milliseconds(500)); // jeda 0.5 detik per titik
+        cout << "." << flush;
+    }
+    cout << endl;
+
+  if (playerSkill == DODGE) {
+        bool sukses = attemptDodge(player, enemy);
+        if (sukses) return true;
+        else {
+            player.hp -= enemy.hp;
+            cout << "HP berkurang -" << enemy.hp << ". Sisa HP: " << player.hp << endl;
+            return player.hp > 0;
+        }
+    }
 
     string result = resolveBattle(playerSkill, enemySkill);
-
-    if (playerSkill == DODGE) {
-        cout << "\nKamu menghindar! Tidak ada damage.\n";
-        return true;
-    }
 
     if (result == "draw") {
         cout << "\nSerangan imbang! Tidak ada pemenang.\n";
         return false;
     } else if (result == "player") {
         cout << "\nKamu menang dalam satu ronde!\n";
-        player.gainReward(enemy.expReward);
+        player.hp += enemy.hp;
+        // if (player.hp > 100) player.hp = 100; biar ga op
+        cout << "\nKamu dapat +" << enemy.hp << " HP. Total HP: " << player.hp << endl;
         return true;
     } else {
-        cout << "\nKamu kalah dalam satu ronde!\n";
-        return false;
+        cout << "\nKamu kalah dalam satu ronde! -" << enemy.hp << " HP.\n";
+        player.hp -= enemy.hp;
+        if (player.hp <= 0) {
+            cout << "\nHP kamu 0! Game Over!\n";
+            return false;
+        } else {
+            cout << "\nHP tersisa: " << player.hp << endl;
+            return true;
+        }
     }
 }
 
-// Main pertarungan: sistem queue
-void battle(Player& player, queue<Enemy>& enemyQueue) {
-    while (!enemyQueue.empty()) {
+void battle(PlayerStats& player, queue<Enemy>& enemyQueue) {
+    while (!enemyQueue.empty() && player.hp > 0) {
         Enemy current = enemyQueue.front();
         enemyQueue.pop();
 
-        bool menang = fightEnemy(player, current);
-        if (!menang) {
-            cout << "\nKamu gagal mengalahkan " << current.name << ". Game Over!\n";
-            return;
-        }
+        bool lanjut = fightEnemy(player, current);
+        if (!lanjut && player.hp <= 0) return;
     }
 
-    cout << "\nKamu berhasil mengalahkan semua musuh! Menang total!\n";
+    if (player.hp > 0)
+        cout << "\nKamu berhasil menghadapi semua musuh!\n";
 }
 
 int main() {
     srand(time(0));
-    Player player;
+    PlayerStats player;
 
     queue<Enemy> musuh;
-    musuh.push({"Tung Tung Sahur", 30, 20});
-    musuh.push({"Tralaleo", 40, 20});
-    musuh.push({"Bombardilo Crocodilo", 50, 25});
-    musuh.push({"Brbr Patapim", 30, 20});
-    musuh.push({"Boborito Bandito", 40, 25});
-    musuh.push({"Bombombini Guzini", 60, 30});
+    musuh.push({"Tung Tung Sahur", 30, 1});
+    musuh.push({"Tralalero Tralala", 40, 2});
+    musuh.push({"Bombardilo Crocodilo", 50, 3});
+    musuh.push({"Brbr Patapim", 30, 1});
+    musuh.push({"Boborito Bandito", 40, 3});
+    musuh.push({"Bombombini Guzini", 60, 2});
 
     cout << "\n===================";
     cout << "\n    Suit Battle    ";
     cout << "\n===================\n";
-    cout << "\nNote: HP awal kamu adalah 0. Jika menang akan tambah HP\n";
+    cout << "\nNote: HP awal kamu adalah 100\n";
 
     battle(player, musuh);
 
