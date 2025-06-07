@@ -206,7 +206,7 @@ void checkLevelAndUpdateStage(PlayerStats& player, int& stage) {
 }
 
 
-int main() {
+int mainUpgrade() {
     PlayerStats player;
 
     // Inisialisasi stat tree

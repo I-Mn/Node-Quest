@@ -74,6 +74,25 @@ int main(){
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
             }
+            if (tipe_vertex == Tipe::MONSTER) {
+                const auto& monster_list = vertex_map[tujuan].monsters;
+                cout << "Ada " << monster_list.size() << " monster di sini:\n";
+                for (size_t i = 0; i < monster_list.size(); ++i) {
+                    const MonsterInstance& m = monster_list[i];
+                    cout << "Monster " << i + 1 << ": " << m.name << "\n";
+                    cout << "  Level: " << m.level << "\n";
+                    cout << "  HP: " << m.hp << "\n";
+                    cout << "  Attack: " << m.attack << "\n";
+                    cout << "  Magic: " << m.magic << "\n";
+                    cout << "  Counter: " << m.counter << "\n";
+                    cout << "  Evade: " << m.evade << "\n";
+                    cout << "  Damage Attack: " << m.damageAttack << "\n";
+                    cout << "  Damage Magic: " << m.damageMagic << "\n";
+                    cout << "  Damage Counter: " << m.damageCounter << "\n";
+                    cout << "  EXP Reward: " << m.expReward << "\n";
+                }
+}
+
 
 
     } else {
@@ -83,5 +102,8 @@ int main(){
 
     cout << "\n=== Rangkuman Akhir ===\n";
     tampilkan_edges();
+    vertex_map.clear();
+    vertices.clear();
+    edges.clear();
     return 0;
 }
