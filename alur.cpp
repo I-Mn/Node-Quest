@@ -72,13 +72,4 @@ void ending() {
     waitForEnter();
 }
 
-int main() {
-    showIntro();
-    stage1();
-    stage2();
-    stage3();
-    ending();
 
-    cout << "\n=== GAME SELESAI ===\n";
-    return 0;
-}
