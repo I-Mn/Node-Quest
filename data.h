@@ -187,12 +187,15 @@ struct MonsterInstance {
         expReward = static_cast<int>(tmpl.baseExp * pow(1.3, level - 1)); // EXP reward berdasarkan level
     }
 };
+
+//Data Vertex
 struct vertexData {
     string name;
     int visited = 0;
     Tipe tipe;
     NPCType npc_type;
     vector<MonsterInstance> monsters;
+    int defeated = 0;
 
     vertexData() {
         int x;

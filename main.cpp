@@ -56,7 +56,7 @@ int main(){
             posisi = tujuan;
 
             // Ambil tipe vertex dan tampilkan
-            Tipe tipe_vertex = vertex_map[tujuan].tipe;
+            Tipe tipe_vertex = vertex_map[posisi].tipe;
             string tipe_str;
             switch (tipe_vertex) {
                 case Tipe::EMPTY: tipe_str = "EMPTY"; break;
@@ -66,8 +66,8 @@ int main(){
             }
             cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";
             if (tipe_vertex == Tipe::NPC) {
-                NPCType npc_type = vertex_map[tujuan].npc_type;
-                
+                NPCType npc_type = vertex_map[posisi].npc_type;
+                if (vertex_map[posisi].visited == 0 && npc_type != NPCType::PEDAGANG_KELILING) {
                 if (npc_type == NPCType::GOBLIN) {
                     npc_goblin(player);
                 } else if (npc_type == NPCType::WANITA_ANEH) {
@@ -82,15 +82,30 @@ int main(){
                     npc_dwarft(player);
                 } else if (npc_type == NPCType::BANDIT_YANG_MENYAMAR) {
                     npc_bandit_yang_menyamar(player);
-                } else if (npc_type == NPCType::PEDAGANG_KELILING) {
+                } 
+            }
+                else if (npc_type == NPCType::PEDAGANG_KELILING) {
                     npc_pedagang_keliling(player);
                 }
-
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            }
+                else{
+                    switch (npc_type) {
+                        case NPCType::GOBLIN: cout << "Kamu sudah bertemu Goblin Pedagang di sini.\n"; break;
+                        case NPCType::WANITA_ANEH: cout << "Kamu sudah bertemu Wanita Aneh di sini.\n"; break;
+                        case NPCType::ANAK_KECIL: cout << "Kamu sudah bertemu Anak Kecil di sini.\n"; break;
+                        case NPCType::AYAH: cout << "Kamu sudah bertemu Ayah di sini.\n"; break;
+                        case NPCType::PRIA_TUA: cout << "Kamu sudah bertemu Pria Tua di sini.\n"; break;
+                        case NPCType::DWARFT: cout << "Kamu sudah bertemu Dwarf di sini.\n"; break;
+                        case NPCType::BANDIT_YANG_MENYAMAR: cout << "Kamu sudah bertemu Bandit yang Menyamari di sini.\n"; break;
+                        default: cout << "NPC tidak dikenali.\n"; break;
+                    }
+                }cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
 
             if (tipe_vertex == Tipe::MONSTER) {
-                const auto& monster_list = vertex_map[tujuan].monsters;
+                if (vertex_map[posisi].defeated == 1){
+                    cout << "Kamu sudah mengalahkan monster di sini./n";
+                }else{
+                const auto& monster_list = vertex_map[posisi].monsters;
                 cout << "Ada " << monster_list.size() << " monster di sini:\n";
                 for (size_t i = 0; i < monster_list.size(); ++i) {
                     const MonsterInstance& m = monster_list[i];
@@ -106,11 +121,11 @@ int main(){
                     cout << "  Damage Counter: " << m.damageCounter << "\n";
                     cout << "  Evade Chance: " << m.evade << "%\n";
                     cout << "  EXP Reward: " << m.expReward << "\n";
-                }
+                }}
 }
 
 
-
+    vertex_map[posisi].visited = 1;
     } else {
             cout << "Arah tidak dikenali. Gunakan utara/selatan/timur/barat.\n";
         }

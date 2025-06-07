@@ -39,7 +39,7 @@ pair<pair<int, int>, vector<string>> cari_npc(pair<int, int> mulai) {
         pair<int, int> current  = q.front();
         q.pop();
 
-        if (vertex_map[current].tipe == Tipe::NPC && current != mulai){
+        if (vertex_map[current].npc_type == NPCType::PEDAGANG_KELILING&& current != mulai){
             vector<pair<int, int>> path;
             pair<int, int> step = current;
             while (step != mulai) {
