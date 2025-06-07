@@ -27,6 +27,32 @@ struct Player
     int HP = 100;
     int healing_poison = 0;
     int magic_poison = 0;
+    int buff_poison = 0;
+    int gold = 0;
+    int attack = 10;
+    int defense = 5;
+    int weapon_durability = 100;
+    int weapon_max_durability = 100;
+    int armor_durability = 100;
+    int armor_max_durability = 100;
+};
+    struct PlayerStats {
+    int hp = 100;
+    int attack = 25;
+    int magic = 25;
+    int counter = 25;
+    int evade = 25;
+    int skillPoint = 10;
+    int exp = 0;
+    int level = 1;
+    int stage = 1;
+};
+struct UpgradeNode {
+    string statName;
+    int level;
+    int bonusValue;
+    bool unlocked;
+    UpgradeNode* next;
 };
 
 
@@ -43,12 +69,12 @@ struct vertexData {
 
     vertexData() {
         x = randomizer(1,100);
-        if (x <= 55){
+        if (x <= 30){
             tipe = Tipe::EMPTY;
-        } else if (x > 55 && x <= 90){
+        } else if (x > 30 && x <= 60){
             tipe = Tipe::MONSTER;
         }
-        else if (x > 90 && x <= 99){
+        else if (x > 60 && x <= 95){
             tipe =  Tipe::NPC;
             npc_type = static_cast<NPCType>(randomizer(0, 1)); // 0 for GOBLIN, 1 for WANITA_ANEH
         } else {
