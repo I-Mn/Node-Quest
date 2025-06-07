@@ -2,28 +2,30 @@
 #include <string>
 #include <stack>
 #include "alur.cpp"
+#include "data.h"
+
 using namespace std;
 
-struct PlayerStats {
-    int hp = 100;
-    int attack = 25;
-    int magic = 25;
-    int counter = 25;
-    int evade = 25;
-    int skillPoint = 10;
-    int exp = 0;
-    int level = 1;
-    int stage = 1;
-};
+// struct PlayerStats {
+//     int hp = 100;
+//     int attack = 25;
+//     int magic = 25;
+//     int counter = 25;
+//     int evade = 25;
+//     int skillPoint = 10;
+//     int exp = 0;
+//     int level = 1;
+//     int stage = 1;
+// };
 
 // Upgrade Stat Tree
-struct UpgradeNode {
-    string statName;
-    int level;
-    int bonusValue;
-    bool unlocked;
-    UpgradeNode* next;
-};
+// struct UpgradeNode {
+//     string statName;
+//     int level;
+//     int bonusValue;
+//     bool unlocked;
+//     UpgradeNode* next;
+// };
 
 UpgradeNode* createNextNode(UpgradeNode* prev) {
     int nextLevel = prev->level + 1;
@@ -204,7 +206,7 @@ void checkLevelAndUpdateStage(PlayerStats& player, int& stage) {
 }
 
 
-int main() {
+int mainUpgrade() {
     PlayerStats player;
 
     // Inisialisasi stat tree
