@@ -22,7 +22,7 @@ int randomizer(int min, int max) {
 }
 
 // Data NPC
-enum class NPCType { GOBLIN, WANITA_ANEH };
+enum class NPCType { GOBLIN, WANITA_ANEH, ANAK_KECIL, AYAH, PRIA_TUA, DWARFT, BANDIT_YANG_MENYAMAR, PEDAGANG_KELILING};
 
 struct Player
 {
@@ -215,7 +215,7 @@ struct vertexData {
         }}
         else if (x > 60 && x <= 95){
             tipe =  Tipe::NPC;
-            npc_type = static_cast<NPCType>(randomizer(0, 1)); // 0 for GOBLIN, 1 for WANITA_ANEH
+            npc_type = static_cast<NPCType>(randomizer(0, 7));
         } else {
             tipe = Tipe::BONUS;
         }

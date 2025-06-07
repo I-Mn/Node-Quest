@@ -15,6 +15,7 @@ using namespace std;
 
 
 int main(){
+    Player player;
     pair<int, int> posisi = {0, 0};  // Posisi awal
     vertices.insert(posisi);
     vertex_map[posisi] = vertexData(); // Inisialisasi vertex awal
@@ -66,14 +67,28 @@ int main(){
             cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";
             if (tipe_vertex == Tipe::NPC) {
                 NPCType npc_type = vertex_map[tujuan].npc_type;
+                
                 if (npc_type == NPCType::GOBLIN) {
-                    npc_goblin(Player{});
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    npc_goblin(player);
                 } else if (npc_type == NPCType::WANITA_ANEH) {
-                    npc_wanita_aneh(Player{});
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    npc_wanita_aneh(player);
+                } else if (npc_type == NPCType::ANAK_KECIL) {
+                    npc_anak_kecil(player);
+                } else if (npc_type == NPCType::AYAH) {
+                    npc_ayah(player);
+                } else if (npc_type == NPCType::PRIA_TUA) {
+                    npc_pria_tua(player);
+                } else if (npc_type == NPCType::DWARFT) {
+                    npc_dwarft(player);
+                } else if (npc_type == NPCType::BANDIT_YANG_MENYAMAR) {
+                    npc_bandit_yang_menyamar(player);
+                } else if (npc_type == NPCType::PEDAGANG_KELILING) {
+                    npc_pedagang_keliling(player);
                 }
+
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
+
             if (tipe_vertex == Tipe::MONSTER) {
                 const auto& monster_list = vertex_map[tujuan].monsters;
                 cout << "Ada " << monster_list.size() << " monster di sini:\n";
@@ -82,13 +97,14 @@ int main(){
                     cout << "Monster " << i + 1 << ": " << m.name << "\n";
                     cout << "  Level: " << m.level << "\n";
                     cout << "  HP: " << m.hp << "\n";
-                    cout << "  Attack: " << m.attack << "\n";
-                    cout << "  Magic: " << m.magic << "\n";
-                    cout << "  Counter: " << m.counter << "\n";
-                    cout << "  Evade: " << m.evade << "\n";
+                    cout << "  Attack: " << m.attack << "%\n";
+                    cout << "  Magic: " << m.magic << "%\n";
+                    cout << "  Counter: " << m.counter << "%\n";
+                    cout << "  Evade: " << m.evade << "%\n";
                     cout << "  Damage Attack: " << m.damageAttack << "\n";
                     cout << "  Damage Magic: " << m.damageMagic << "\n";
                     cout << "  Damage Counter: " << m.damageCounter << "\n";
+                    cout << "  Evade Chance: " << m.evade << "%\n";
                     cout << "  EXP Reward: " << m.expReward << "\n";
                 }
 }
