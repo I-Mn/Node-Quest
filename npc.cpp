@@ -322,22 +322,22 @@ void tampilkan_bergantian(Player player) {
     }
 }
 
-int main() {
-    Player player;
+// int main() {
+//     Player player;
 
-    masuk(npc_goblin);
-    masuk(npc_wanita_aneh);
-    masuk(npc_anak_kecil);
-    masuk(npc_ayah);
-    masuk(npc_pria_tua);
-    masuk(npc_bandit_yang_menyamar);
+//     masuk(npc_goblin);
+//     masuk(npc_wanita_aneh);
+//     masuk(npc_anak_kecil);
+//     masuk(npc_ayah);
+//     masuk(npc_pria_tua);
+//     masuk(npc_bandit_yang_menyamar);
 
-    for (int i = 0; i < 6; i++) {
-        tampilkan_bergantian(player);
-    }
+//     for (int i = 0; i < 6; i++) {
+//         tampilkan_bergantian(player);
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 
 // NPC untuk membeli dan memnjual barang
 
@@ -554,33 +554,33 @@ void npc_pedagang_keliling(Player player)
     }
 }
 
-int main() {
-    Player player;
+// // int main() {
+//     Player player;
 
-    while (true) {
-        cout << "\nKamu ingin pergi ke toko apa?\n";
-        cout << "a. Toko Senjata\n";
-        cout << "b. Toko Ramuan\n";
-        cout << "c. Keluar\n";
+//     while (true) {
+//         cout << "\nKamu ingin pergi ke toko apa?\n";
+//         cout << "a. Toko Senjata\n";
+//         cout << "b. Toko Ramuan\n";
+//         cout << "c. Keluar\n";
 
-        char pilihan1;
-        cout << "Pilihanmu: ";
-        cin >> pilihan1;
+//         char pilihan1;
+//         cout << "Pilihanmu: ";
+//         cin >> pilihan1;
 
-        if (pilihan1 == 'a' || pilihan1 == 'A') {
-            npc_dwarft(player);
-        }
-        else if (pilihan1 == 'b' || pilihan1 == 'B') {
-            npc_pedagang_keliling(player);
-        }
-        else if (pilihan1 == 'c' || pilihan1 == 'C') {
-            cout << "Keluar dari game.\n";
-            break;
-        }
-        else {
-            cout << "Pilihan tidak valid.\n";
-        }
-    }
+//         if (pilihan1 == 'a' || pilihan1 == 'A') {
+//             npc_dwarft(player);
+//         }
+//         else if (pilihan1 == 'b' || pilihan1 == 'B') {
+//             npc_pedagang_keliling(player);
+//         }
+//         else if (pilihan1 == 'c' || pilihan1 == 'C') {
+//             cout << "Keluar dari game.\n";
+//             break;
+//         }
+//         else {
+//             cout << "Pilihan tidak valid.\n";
+//         }
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
