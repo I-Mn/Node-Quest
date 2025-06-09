@@ -13,6 +13,7 @@ struct Enemy {
     string name;
     int hp;
     int difficultyLevel;  // 1: mudah, 2: sedang, 3: sulit
+    int expReward;
 };
 
 struct PlayerStats {
@@ -21,7 +22,7 @@ struct PlayerStats {
     int magic = 25;
     int counter = 25;
     int evade = 25;
-    int skillPoint = 0;
+    int xp = 0;
 };
 
 string skillToString(Skill s) {
@@ -279,9 +280,8 @@ bool fightEnemy(PlayerStats& player, Enemy& enemy) {
         return false;
     } else if (result == "player") {
         cout << "\nKamu menang dalam satu ronde!\n";
-        player.hp += enemy.hp;
-        if (player.hp > 100) player.hp = 100;
-        cout << "\nKamu dapat +" << enemy.hp << " HP. Total HP: " << player.hp << endl;
+        player.xp += enemy.expReward;
+        cout << "\nKamu dapat +" << enemy.expReward << " XP. Total XP: " << player.xp << endl;
         return true;
     } else {
         cout << "\nKamu kalah dalam satu ronde! -" << enemy.hp << " HP.\n";
@@ -298,7 +298,7 @@ bool fightEnemy(PlayerStats& player, Enemy& enemy) {
 
 void battle(PlayerStats& player, queue<Enemy>& enemyQueue) {
     while (!enemyQueue.empty() && player.hp > 0) {
-        Enemy& current = enemyQueue.front();  // Ambil referensi ke musuh paling depan, JANGAN pop dulu
+        Enemy& current = enemyQueue.front();  
 
         bool lanjut = fightEnemy(player, current);
 
@@ -322,12 +322,12 @@ int main() {
     PlayerStats player;
 
     queue<Enemy> musuh;
-    musuh.push({"Tung Tung Sahur", 30, 1});
-    musuh.push({"Tralalero Tralala", 40, 2});
-    musuh.push({"Bombardilo Crocodilo", 50, 3});
-    musuh.push({"Brbr Patapim", 30, 1});
-    musuh.push({"Boborito Bandito", 40, 3});
-    musuh.push({"Bombombini Guzini", 60, 2});
+    musuh.push({"Tung Tung Sahur", 30, 1, 20});
+    musuh.push({"Tralalero Tralala", 40, 2, 30});
+    musuh.push({"Bombardilo Crocodilo", 50, 3, 40});
+    musuh.push({"Brbr Patapim", 30, 1, 20});
+    musuh.push({"Boborito Bandito", 40, 3, 40});
+    musuh.push({"Bombombini Guzini", 60, 2, 30});
 
     cout << "\n===================";
     cout << "\n    Suit Battle    ";
@@ -335,6 +335,10 @@ int main() {
     cout << "\nNote: HP awal kamu adalah 100\n";
 
     battle(player, musuh);
+    
+    cout << "\n===== Permainan selesai =====" << endl;
+    cout << "\nXP akhir kamu: " << player.xp << endl;
+    cout << "\nSisa HP: " << player.hp << endl;
 
     return 0;
 }
