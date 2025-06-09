@@ -280,7 +280,7 @@ bool fightEnemy(PlayerStats& player, Enemy& enemy) {
     } else if (result == "player") {
         cout << "\nKamu menang dalam satu ronde!\n";
         player.hp += enemy.hp;
-        // if (player.hp > 100) player.hp = 100; biar ga op
+        if (player.hp > 100) player.hp = 100;
         cout << "\nKamu dapat +" << enemy.hp << " HP. Total HP: " << player.hp << endl;
         return true;
     } else {
