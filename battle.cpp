@@ -298,11 +298,19 @@ bool fightEnemy(PlayerStats& player, Enemy& enemy) {
 
 void battle(PlayerStats& player, queue<Enemy>& enemyQueue) {
     while (!enemyQueue.empty() && player.hp > 0) {
-        Enemy current = enemyQueue.front();
-        enemyQueue.pop();
+        Enemy& current = enemyQueue.front();  // Ambil referensi ke musuh paling depan, JANGAN pop dulu
 
         bool lanjut = fightEnemy(player, current);
+
         if (!lanjut && player.hp <= 0) return;
+
+        // Jika player menang (fightEnemy return true) baru pop musuh
+        // Note: Kalau draw, fightEnemy akan return false, tapi HP masih > 0
+        if (lanjut || player.hp <= 0) {
+            enemyQueue.pop();
+        } else {
+            cout << "\nPertandingan diulang karena hasil imbang!\n";
+        }
     }
 
     if (player.hp > 0)
