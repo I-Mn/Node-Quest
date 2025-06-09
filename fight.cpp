@@ -5,7 +5,6 @@
 #include <chrono>
 #include <thread>
 using namespace std;
-#include "ascii.cpp"
 
 // vertex_map[posisi].monsters[i].name
 
@@ -96,22 +95,11 @@ string resolveBattle(Skill player, Skill enemy) {
 return "Unknown";}
 
 void fightEnemy(Player& player) {
-    int nomor = 1;
     while (!vertex_map[posisi].monsters.empty()) {
         MonsterInstance& enemy = vertex_map[posisi].monsters[0];
-        string ascii = getEnemyAscii(enemy.name);
 
-                for (int j = 0; j < 3; ++j) {
-            this_thread::sleep_for(chrono::milliseconds(500));
-            cout << "." << flush;
-        }
-        cout << endl;
-        system("cls");
-        const auto& monster_list = vertex_map[posisi].monsters;
-        cout << "Ada " << monster_list.size() << " monster di sini:\n";
-        cout << ascii;
-        cout <<"\n"<< nomor <<" === Lawan " << enemy.name << " (HP: " << enemy.hp << ")" 
-        <<"(Level: "<< enemy.level<<")"<<"(Attack: "<<enemy.damageAttack<<" )"<< "(Magic: "<<enemy.damageMagic<<" )" << "(Counter: "<<enemy.damageCounter<<" ) ==="<<  endl;
+        system ("cls");
+        cout << "\n=== Lawan " << enemy.name << " (HP: " << enemy.hp << ") ===\n" << endl;
         cout << "Pilihan Aksi:\n";
         cout << "1. Attack  - Serangan langsung, menang melawan Magic.\n";
         cout << "2. Magic   - Serangan sihir, menang melawan Counter.\n";
@@ -188,13 +176,10 @@ void fightEnemy(Player& player) {
         // Cek apakah musuh kalah
         if (enemy.hp <= 0) {
             cout << "Musuh dikalahkan!\n";
-            nomor++;
-            int totalXP =+ enemy.expReward;
             vertex_map[posisi].monsters.erase(vertex_map[posisi].monsters.begin());
             if (vertex_map[posisi].monsters.empty()) {
                 vertex_map[posisi].defeated = 1;
                 cout << "Semua musuh di node ini telah dikalahkan!\n";
-                player_stats.exp += totalXP;
                 break;
             }
             continue;

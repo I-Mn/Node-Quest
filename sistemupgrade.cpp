@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stack>
-#include "alur.cpp"
+#include "alur.h"
 #include "data.h"
 
 using namespace std;
@@ -172,10 +172,12 @@ void tampilkanStats(const PlayerStats& p) {
 // Void Naikin Level dan Stage
 
 void checkExpAndLevelUp(PlayerStats& player) {
-    const int expThreshold = 100;
+    int expThreshold = 100;
     while (player.exp >= expThreshold) {
         player.exp -= expThreshold;
         player.level++;
+        expThreshold += expThreshold * 1.5;
+        player.exp = 0;
         player.skillPoint += 1; // misal dapat skill point tiap naik level
         cout << "Level naik! Sekarang level " << player.level << endl;
     }

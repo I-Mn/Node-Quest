@@ -1,3 +1,5 @@
+#ifndef ALUR_H
+#define ALUR_H
 #include <iostream>
 #include <string>
 #include <thread>
@@ -72,4 +74,4 @@ void ending() {
     waitForEnter();
 }
 
-
+#endif

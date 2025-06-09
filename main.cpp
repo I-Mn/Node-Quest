@@ -12,24 +12,32 @@ using namespace std;
 #include <cctype>
 #include <queue>
 #include "data.h"
+#include "battle.cpp"
+#include "alur.h"
+#include "help.h"
 
 
 int main(){
-    Player player;
-    pair<int, int> posisi = {0, 0};  // Posisi awal
     vertices.insert(posisi);
-    vertex_map[posisi] = vertexData(); // Inisialisasi vertex awal
+    vertex_map[posisi] = vertexData(); // Inisialisasi vertex awal 
 
     string input;
+
+    vertex_map[posisi].tipe = Tipe::STORY;
+    vertex_map[posisi].visited = 1;
+    showIntro();
+    help();
     while (true) {
-        cout << "Arah (utara/selatan/timur/barat, atau 'keluar' untuk berhenti): ";
+        checkExpAndLevelUp(player_stats);
+        checkLevelAndUpdateStage(player_stats, player_stats.stage);
+        cout << "Masukkan Input (ketik help untuk panduan): ";
         getline(cin, input);
         system("cls");
         transform(input.begin(), input.end(), input.begin(), ::tolower); // Ubah ke huruf kecil
 
         if (input == "keluar") {break;}
         else if (input == "upgrade") {continue;}
-        else if (input == "cari npc") {
+        else if (input == "cari toko") {
             auto result = cari_npc(posisi);
             if (result.first.first == -9999) {
                 cout << "NPC tidak ditemukan.\n";
@@ -62,7 +70,7 @@ int main(){
                 case Tipe::EMPTY: tipe_str = "EMPTY"; break;
                 case Tipe::MONSTER: tipe_str = "MONSTER"; break;
                 case Tipe::NPC: tipe_str = "NPC"; break;
-                case Tipe::BONUS: tipe_str = "BONUS"; break;
+                case Tipe::STORY: tipe_str = "STORY"; break;
             }
             cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";
             if (tipe_vertex == Tipe::NPC) {
@@ -107,22 +115,23 @@ int main(){
                 }else{
                 const auto& monster_list = vertex_map[posisi].monsters;
                 cout << "Ada " << monster_list.size() << " monster di sini:\n";
-                for (size_t i = 0; i < monster_list.size(); ++i) {
-                    const MonsterInstance& m = monster_list[i];
-                    cout << "Monster " << i + 1 << ": " << m.name << "\n";
-                    cout << "  Level: " << m.level << "\n";
-                    cout << "  HP: " << m.hp << "\n";
-                    cout << "  Attack: " << m.attack << "%\n";
-                    cout << "  Magic: " << m.magic << "%\n";
-                    cout << "  Counter: " << m.counter << "%\n";
-                    cout << "  Evade: " << m.evade << "%\n";
-                    cout << "  Damage Attack: " << m.damageAttack << "\n";
-                    cout << "  Damage Magic: " << m.damageMagic << "\n";
-                    cout << "  Damage Counter: " << m.damageCounter << "\n";
-                    cout << "  Evade Chance: " << m.evade << "%\n";
-                    cout << "  EXP Reward: " << m.expReward << "\n";
-                }}
-}
+                // for (size_t i = 0; i < monster_list.size(); ++i) {
+                    // int i = 0;
+                    // const MonsterInstance& m = monster_list[i];
+                    // cout << "Monster " << i + 1 << ": " << m.name << "\n";
+                    // cout << "  Level: " << m.level << "\n";
+                    // cout << "  HP: " << m.hp << "\n";
+                    // cout << "  Attack: " << m.attack << "%\n";
+                    // cout << "  Magic: " << m.magic << "%\n";
+                    // cout << "  Counter: " << m.counter << "%\n";
+                    // cout << "  Evade: " << m.evade << "%\n";
+                    // cout << "  Damage Attack: " << m.damageAttack << "\n";
+                    // cout << "  Damage Magic: " << m.damageMagic << "\n";
+                    // cout << "  Damage Counter: " << m.damageCounter << "\n";
+                    // cout << "  Evade Chance: " << m.evade << "%\n";
+                    // cout << "  EXP Reward: " << m.expReward << "\n";
+                    fightEnemy(player);
+                }cin.ignore(numeric_limits<streamsize>::max(), '\n');}
 
 
     vertex_map[posisi].visited = 1;
