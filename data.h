@@ -13,6 +13,12 @@
 #include <stack>
 using namespace std;
 
+// fungsi clear screen
+void clearScreen() {
+    cout << "\033[2J\033[1;1H";
+}
+
+
 // Algoritma Randomizer
 std::random_device rd;
 std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
