@@ -26,18 +26,17 @@ void checkExpAndLevelUp(PlayerStats& player) {
     while (player.exp >= expThreshold) {
         player.exp -= expThreshold;
         player.level++;
-        player.exp -= expThreshold;
-        expThreshold += expThreshold * 1.5;
+        expThreshold += expThreshold * 1.1;
         player.skillPoint += 1;
         cout << "Level naik! Sekarang level " << player.level << endl;
     }
 }
 
-void checkLevelAndUpdateStage(PlayerStats& player, int& stage) {
-    int newStage = player.level / 10;  // misal level 23 -> stage 2 (karena 23/10=2)
-    if (newStage > stage) {
-        stage = newStage;
-        switch(stage) {
+void checkLevelAndUpdateStage(PlayerStats& player) {
+    int newStage = player.level / 10;
+    if (newStage > player.stage) {
+        player.stage = newStage;
+        switch(player.stage) {
             case 1:
                 stage1();
                 break;
@@ -56,6 +55,7 @@ void checkLevelAndUpdateStage(PlayerStats& player, int& stage) {
         }
     }
 }
+
 
 
 void upgrade(string stat){

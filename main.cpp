@@ -29,7 +29,7 @@ int main(){
     help();
     while (true) {
         checkExpAndLevelUp(player_stats);
-        checkLevelAndUpdateStage(player_stats, player_stats.stage);
+        checkLevelAndUpdateStage(player_stats);
         cout << "Masukkan Input (ketik help untuk panduan): ";
         getline(cin, input);
         system("cls");
@@ -173,8 +173,18 @@ int main(){
             }
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
+    else if(input == "tambahkan exp") {
+            cout << "Tambahkan EXP dan Level Up:\n";
+            int tambahan_exp;
+            cout << "Masukkan jumlah EXP yang ingin ditambahkan: ";
+            cin >> tambahan_exp;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            player_stats.exp += tambahan_exp;
+            checkExpAndLevelUp(player_stats);
+            cout << "EXP sekarang: " << player_stats.exp << ", Level: " << player_stats.level << "\n";
+        }
     else {
-            cout << "Arah tidak dikenali. Gunakan utara/selatan/timur/barat.\n";
+            cout << "Command tidak diketahui, ketik 'help' untuk list command\n";
         }
     }
 

@@ -4,11 +4,17 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include "data.h"
 
 using namespace std;
 
 void waitForEnter() {
     cout << "\n[ Tekan ENTER untuk melanjutkan... ]";
+    posisi = {0, 0}; // Reset posisi ke awal
+    vertex_map.clear(); // Kosongkan peta vertex
+    vertices.clear(); // Kosongkan daftar vertex
+    edges.clear(); // Kosongkan daftar edge
+    cin.clear(); // Bersihkan status kesalahan pada cin
     cin.ignore();
     cin.get();
 }

@@ -54,7 +54,7 @@ struct Player
     int skillPoint = 10;
     int exp = 0;
     int level = 1;
-    int stage = 1;
+    int stage = 0;
 }; PlayerStats player_stats;
 
 struct Upgrade{
