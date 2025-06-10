@@ -119,6 +119,8 @@ void fightEnemy(Player& player) {
         int buffPoisonBuff = 1;
         int healPoisonBuff = 0;
         int choice;
+        int damageToEnemy = 0;
+        int damageToPlayer = 0;
         while (true) {
             cout << "Pilihan Aksi:\n";
             cout << "1. Attack  - Serangan langsung, menang melawan Magic.\n";
@@ -128,9 +130,20 @@ void fightEnemy(Player& player) {
             cout << "5. Potion  - Gunakan potion dari backpack.\n";
             cout << "Pilih aksi (1-5): ";
             cin >> choice;
-            if (cin.fail() || choice < 1 || choice > 5) {
+            if (cin.fail()) {
                 cin.clear();
                 cin.ignore(1000, '\n');
+                cout << "Pilihan tidak valid! Masukkan angka antara 1 dan 5.\n";
+                continue;
+            }
+            if (choice == 22) {
+                cout << "Menggunakan cheat mode!\n";
+                damageToEnemy = 9999999; // Set damage ke nilai maksimum
+                // Langsung kalahkan musuh
+                enemy.hp = 0;
+                break;
+            }
+            if (choice < 1 || choice > 5) {
                 cout << "Pilihan tidak valid! Masukkan angka antara 1 dan 5.\n";
                 continue;
             }
@@ -165,6 +178,10 @@ void fightEnemy(Player& player) {
                 continue;
             }
             break;
+            if (choice == 22){
+            damageToEnemy = 9999999;
+        }
+
         }
 
         Skill playerSkill = static_cast<Skill>(choice - 1);
@@ -182,9 +199,6 @@ void fightEnemy(Player& player) {
             cout << "Kedua pihak menghindar! Tidak ada yang terkena serangan.\n";
             continue;
         }
-
-        int damageToEnemy = 0;
-        int damageToPlayer = 0;
 
         if (playerSkill == ATTACK) damageToEnemy = player_stats.attack * buffPoisonBuff;
         else if (playerSkill == MAGIC) damageToEnemy = player_stats.magic * magicPoisonBuff;
