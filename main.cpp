@@ -37,12 +37,15 @@ int main(){
 
         if (input == "keluar") {break;}
         else if (input == "upgrade") {continue;}
-        else if (input == "cari toko") {
-            auto result = cari_npc(posisi);
+        else if (input == "toko") {
+            if (vertex_map[posisi].tipe == Tipe::NPC && vertex_map[posisi].npc_type == NPCType::PEDAGANG_KELILING) {
+                npc_pedagang_keliling(player);
+            } else {
+                 auto result = cari_npc(posisi);
             if (result.first.first == -9999) {
                 cout << "NPC tidak ditemukan.\n";
             } else {
-                cout << "NPC ditemukan di: (" << result.first.first << ", " << result.first.second << ")\n";
+                cout << "Pedagang keliling ditemukan di: (" << result.first.first << ", " << result.first.second << ")\n";
                 cout << "Arah yang harus diambil: ";
                 for (const auto& arah : result.second) {
                     cout << arah << " ";
@@ -52,6 +55,8 @@ int main(){
             continue;
         }
 
+            }
+           
         else if (arah.find(input) != arah.end()) {
             pair<int, int> delta = arah[input];
             pair<int, int> tujuan = {posisi.first + delta.first, posisi.second + delta.second};
@@ -146,6 +151,19 @@ int main(){
         }
     else if (input == "upgrade") {
             mainUpgrade();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else if (input == "inventory") {
+            cout << "Inventory:\n";
+            if (inventoryStack.empty()) {
+                cout << "Inventory kosong.\n";
+            } else {
+                stack<string> tempStack = inventoryStack;
+                while (!tempStack.empty()) {
+                    cout << "- " << tempStack.top() << "\n";
+                    tempStack.pop();
+                }
+            }
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     else {

@@ -47,6 +47,28 @@ void buangItem() {
     cout << "Item \"" << dibuang << "\" telah dibuang dari inventory.\n\n";
 }
 
+bool jualItemDariInventory(const string& item) {
+    stack<string> tempStack;
+    bool found = false;
+    // Pindahkan semua item ke tempStack, kecuali yang ingin dijual (pertama ditemukan)
+    while (!inventoryStack.empty()) {
+        if (!found && inventoryStack.top() == item) {
+            inventoryStack.pop();
+            found = true;
+            break;
+        } else {
+            tempStack.push(inventoryStack.top());
+            inventoryStack.pop();
+        }
+    }
+    // Kembalikan item lain ke inventoryStack
+    while (!tempStack.empty()) {
+        inventoryStack.push(tempStack.top());
+        tempStack.pop();
+    }
+    return found;
+}
+
 
 
 #endif

@@ -2,17 +2,14 @@
 #include <queue>
 #include <string>
 #include "data.h"
+#include "inventory.h"
 #include <chrono>
 #include <thread>
 using namespace std;
 #include "ascii.cpp"
 
-// vertex_map[posisi].monsters[i].name
-
-
-
 // Gunakan enum Skill dari file ini
-enum Skill { ATTACK, MAGIC, COUNTER, DODGE };
+enum Skill { ATTACK, MAGIC, COUNTER, DODGE , POISON};
 
 string skillToString(Skill s) {
     switch (s) {
@@ -20,6 +17,7 @@ string skillToString(Skill s) {
         case MAGIC: return "Magic";
         case COUNTER: return "Counter";
         case DODGE: return "Dodge";
+        case POISON: return "Poison";
         default: return "Unknown";
     }
 }
@@ -102,7 +100,7 @@ void fightEnemy(Player& player) {
         MonsterInstance& enemy = vertex_map[posisi].monsters[0];
         string ascii = getEnemyAscii(enemy.name);
 
-                for (int j = 0; j < 3; ++j) {
+        for (int j = 0; j < 3; ++j) {
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "." << flush;
         }
@@ -111,32 +109,62 @@ void fightEnemy(Player& player) {
         const auto& monster_list = vertex_map[posisi].monsters;
         cout << "Ada " << monster_list.size() << " monster di sini:\n";
         cout << ascii;
-        cout <<"\n"<< nomor <<" === Lawan " << enemy.name << " (HP: " << enemy.hp << ")" 
+        cout <<"\n"<< nomor <<" === Lawan " << enemy.name << " (HP: " << enemy.hp << ")"
         <<"(Level: "<< enemy.level<<")"<<"(Attack: "<<enemy.damageAttack<<" )"<< "(Magic: "<<enemy.damageMagic<<" )" << "(Counter: "<<enemy.damageCounter<<" ) ==="<<  endl;
-        cout << "Pilihan Aksi:\n";
-        cout << "1. Attack  - Serangan langsung, menang melawan Magic.\n";
-        cout << "2. Magic   - Serangan sihir, menang melawan Counter.\n";
-        cout << "3. Counter - Menangkis serangan fisik, menang melawan Attack.\n";
-        cout << "4. Dodge   - Menghindari serangan, tergantung stat evade.\n";
-        cout << "5. Potion  - Gunakan potion dari backpack.\n";
-
+        cout << "HP Kamu: " << player.HP << endl;
+        
+        bool usedPoison = false;
+        int magicPoisonBuff = 1;
+        int buffPoisonBuff = 1;
+        int healPoisonBuff = 0;
         int choice;
         while (true) {
+            cout << "Pilihan Aksi:\n";
+            cout << "1. Attack  - Serangan langsung, menang melawan Magic.\n";
+            cout << "2. Magic   - Serangan sihir, menang melawan Counter.\n";
+            cout << "3. Counter - Menangkis serangan fisik, menang melawan Attack.\n";
+            cout << "4. Dodge   - Menghindari serangan, tergantung stat evade.\n";
+            cout << "5. Potion  - Gunakan potion dari backpack.\n";
             cout << "Pilih aksi (1-5): ";
             cin >> choice;
             if (cin.fail() || choice < 1 || choice > 5) {
                 cin.clear();
                 cin.ignore(1000, '\n');
                 cout << "Pilihan tidak valid! Masukkan angka antara 1 dan 5.\n";
-            } else {
-                break;
+                continue;
             }
+            if (choice == 5) {
+                if (usedPoison) {
+                    cout << "Kamu hanya bisa menggunakan 1 poison per giliran!\n";
+                    continue;
+                }
+                if (inventoryStack.empty()) {
+                    cout << "Inventory kosong.\n";
+                    continue;
+                }
+                string topPoison = inventoryStack.top();
+                inventoryStack.pop();
+                cout << "Kamu menggunakan " << topPoison << "!\n";
+                if (topPoison == "Healing Poison") {
+                    int heal = (int)(0.3 * player_stats.hp);
+                    player.HP = min(player.HP + heal, player_stats.hp);
+                    cout << "HP bertambah " << heal << ". HP sekarang: " << player.HP << endl;
+                    usedPoison = true;
+                } else if (topPoison == "Magic Poison") {
+                    magicPoisonBuff = 3;
+                    cout << "Serangan magic x3 untuk giliran ini.\n";
+                    usedPoison = true;
+                } else if (topPoison == "Buff Poison") {
+                    buffPoisonBuff = 3;
+                    cout << "Serangan attack & counter x3 untuk giliran ini.\n";
+                    usedPoison = true;
+                } else {
+                    cout << "Item tidak dikenal, tidak ada efek.\n";
+                }
+                continue;
+            }
+            break;
         }
-
-        // string buff = "";
-        // if (choice == 5) {
-        //     if (player.potion > 0) {
-        //         if player.potion
 
         Skill playerSkill = static_cast<Skill>(choice - 1);
         Skill enemySkill = getRandomSkill(0); // selalu melawan monsters[0]
@@ -157,9 +185,9 @@ void fightEnemy(Player& player) {
         int damageToEnemy = 0;
         int damageToPlayer = 0;
 
-        if (playerSkill == ATTACK) damageToEnemy = player_stats.attack;
-        else if (playerSkill == MAGIC) damageToEnemy = player_stats.magic;
-        else if (playerSkill == COUNTER) damageToEnemy = player_stats.counter;
+        if (playerSkill == ATTACK) damageToEnemy = player_stats.attack * buffPoisonBuff;
+        else if (playerSkill == MAGIC) damageToEnemy = player_stats.magic * magicPoisonBuff;
+        else if (playerSkill == COUNTER) damageToEnemy = player_stats.counter * buffPoisonBuff;
 
         if (enemySkill == ATTACK) damageToPlayer = enemy.damageAttack;
         else if (enemySkill == MAGIC) damageToPlayer = enemy.damageMagic;

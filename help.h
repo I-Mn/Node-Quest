@@ -6,7 +6,7 @@ using namespace std;
 
 void help() {
     cout << "=== Bantuan Permainan Node Quest ===\n";
-    cout << "* Gunakan perintah arah (kanan, kiri, maju, mundur) untuk bergerak.\n";
+    cout << "* Gunakan perintah arah (utara, selatan, barat, timur) untuk bergerak.\n";
     cout << "* Setiap node memiliki tipe: NORMAL, MONSTER, atau NPC.\n";
     cout << "* Lawan monster menggunakan pilihan aksi (Attack, Magic, Counter, Dodge).\n";
     cout << "* Kalahkan semua musuh di node untuk bisa melanjutkan.\n";
