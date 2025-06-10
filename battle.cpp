@@ -225,8 +225,8 @@ void fightEnemy(Player& player) {
                 vertex_map[posisi].defeated = 1;
                 cout << "Semua musuh di node ini telah dikalahkan!\n";
                 player_stats.exp += totalXP;
-                player.gold += totalXP / 5;
-                cout << "Kamu mendapatkan " << totalXP << " EXP dan " << totalXP / 5 << " gold!\n";
+                player.gold += (int)(totalXP / 2);
+                cout << "Kamu mendapatkan " << totalXP << " EXP dan " << totalXP / 2 << " gold!\n";
                 totalXP = 0;
 
                 break;

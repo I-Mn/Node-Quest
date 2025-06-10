@@ -186,6 +186,18 @@ int main(){
             checkExpAndLevelUp(player_stats);
             cout << "EXP sekarang: " << player_stats.exp << ", Level: " << player_stats.level << "\n";
         }
+    else if(input == "tambahkan gold") {
+            cout << "Tambahkan Gold:\n";
+            int tambahan_gold;
+            cout << "Masukkan jumlah Gold yang ingin ditambahkan: ";
+            cin >> tambahan_gold;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            player.gold += tambahan_gold;
+            cout << "Gold sekarang: " << player.gold << "\n";
+        }
+    else if(input == "tampilkan edges") {
+            tampilkan_edges();
+        }
     else {
             cout << "Command tidak diketahui, ketik 'help' untuk list command\n";
         }
