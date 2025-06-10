@@ -135,7 +135,20 @@ int main(){
 
 
     vertex_map[posisi].visited = 1;
-    } else {
+    } 
+    else if(input == "help") {
+            help();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    else if (input == "stats") {
+            tampilkanStats(player_stats);
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    else if (input == "upgrade") {
+            mainUpgrade();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    else {
             cout << "Arah tidak dikenali. Gunakan utara/selatan/timur/barat.\n";
         }
     }

@@ -96,6 +96,7 @@ string resolveBattle(Skill player, Skill enemy) {
 return "Unknown";}
 
 void fightEnemy(Player& player) {
+    player.HP = player_stats.hp;
     int nomor = 1;
     while (!vertex_map[posisi].monsters.empty()) {
         MonsterInstance& enemy = vertex_map[posisi].monsters[0];
@@ -195,6 +196,7 @@ void fightEnemy(Player& player) {
                 vertex_map[posisi].defeated = 1;
                 cout << "Semua musuh di node ini telah dikalahkan!\n";
                 player_stats.exp += totalXP;
+                player.gold += totalXP / 5;
                 break;
             }
             continue;
@@ -203,7 +205,8 @@ void fightEnemy(Player& player) {
         // Cek apakah player kalah
         if (player.HP <= 0) {
             cout << "Kamu kalah dalam pertempuran...\n";
-            // Tambahkan logika Game Over
+            posisi = {0, 0}; // Reset posisi ke awal
+            inventoryStack = stack<string>(); // Kosongkan inventory
             break;
         }
     }

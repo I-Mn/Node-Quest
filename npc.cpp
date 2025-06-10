@@ -1,5 +1,6 @@
 #include <iostream>
 #include "data.h"
+#include "inventory.h"
 using namespace std;
 
 // struct Player
@@ -54,7 +55,7 @@ void npc_goblin(Player player)
             if (player.gold >= healing_poison_price)
             {
                 player.gold -= healing_poison_price;
-                player.healing_poison++;
+                tambahItemKeInventory("Healing Poison");
                 cout << "Kamu membeli HEALING POISON.\n";
             }
             else
@@ -67,7 +68,7 @@ void npc_goblin(Player player)
             if (player.gold >= magic_poison_price)
             {
                 player.gold -= magic_poison_price;
-                player.magic_poison++;
+                tambahItemKeInventory("Magic Poison");
                 cout << "Kamu membeli MAGIC POISON.\n";
             }
             else
@@ -80,7 +81,7 @@ void npc_goblin(Player player)
             if (player.gold >= buff_poison_price)
             {
                 player.gold -= buff_poison_price;
-                player.buff_poison++;
+                tambahItemKeInventory("Buff Poison");
                 cout << "Kamu membeli BUFF POISON.\n";
             }
             else
@@ -129,7 +130,7 @@ void npc_wanita_aneh(Player player)
     if (choice == 'a' || choice == 'A')
     {
         cout << "Kamu mendapatkan MAGIC POISON\n";
-        player.magic_poison += 1;
+        tambahItemKeInventory("Magic Poison");
     }
     else if (choice == 'b' || choice == 'B')
     {
@@ -249,16 +250,14 @@ void npc_pria_tua(Player player)
     {
         cout << "Pria tua itu adalah bandit yang menyamar.\n";
         cout << "Dia takut dan memberikanmu HEALING POISON sebagai tanda perdamaian.\n";
-        player.healing_poison += 1;
+        tambahItemKeInventory("Healing Poison");
     }
     else if (choice == 'c' || choice == 'C')
     {
         cout << "Kamu duduk bersama pria tua itu.\n";
         cout << "Ternyata dia adalah bandit yang menyamar! Dia mencuri poison-mu saat kamu lengah.\n";
-        if (player.healing_poison > 0)
-            player.healing_poison -= 1;
-        if (player.magic_poison > 0)
-            player.magic_poison -= 1;
+        buangItem();
+        buangItem();
     }
     else
     {
@@ -294,10 +293,8 @@ void npc_bandit_yang_menyamar(Player player)
     {
         cout << "Kamu memilih diam.\n";
         cout << "Bandit itu memanfaatkan kesempatan dan mencuri poison-mu!\n";
-        if (player.healing_poison > 0)
-            player.healing_poison -= 1;
-        if (player.magic_poison > 0)
-            player.magic_poison -= 1;
+        buangItem();
+        buangItem();
     }
     else
     {
@@ -461,18 +458,24 @@ void npc_pedagang_keliling(Player player)
         cin >> buy_choice;
 
         int price = 0;
-
+        if (inventoryStack.size() >= MAX_INVENTORY_SIZE) {
+            cout << "Inventory penuh! Tidak bisa membeli item baru.\n";
+            return;
+        }
         if (buy_choice == 1)
         {
             price = 50;
+            tambahItemKeInventory("Healing Poison");
         }
         else if (buy_choice == 2)
         {
             price = 60;
+            tambahItemKeInventory("Magic Poison");
         }
         else if (buy_choice == 3)
         {
             price = 70;
+            tambahItemKeInventory("Buff Poison");
         }
         else if (buy_choice == 4)
         {
@@ -498,41 +501,29 @@ void npc_pedagang_keliling(Player player)
 
         if (sell_choice == 1)
         {
-            if (player.healing_poison > 0)
-            {
-                player.healing_poison--;
+            if (jualItemDariInventory("Healing Poison")) {
                 player.gold += 40;
                 cout << "Kamu menjual Ramuan Healing.\n";
-            }
-            else
-            {
-                cout << "Kamu tidak memiliki Ramuan Healing untuk dijual.\n";
+            } else {
+                cout << "Kamu tidak punya Healing Poison di inventory.\n";
             }
         }
         else if (sell_choice == 2)
         {
-            if (player.magic_poison > 0)
-            {
-                player.magic_poison--;
+            if (jualItemDariInventory("Magic Poison")) {
                 player.gold += 50;
                 cout << "Kamu menjual Ramuan Magic.\n";
-            }
-            else
-            {
-                cout << "Kamu tidak memiliki Ramuan Magic untuk dijual.\n";
+            } else {
+                cout << "Kamu tidak punya Magic Poison di inventory.\n";
             }
         }
         else if (sell_choice == 3)
         {
-            if (player.buff_poison > 0)
-            {
-                player.buff_poison--;
+            if (jualItemDariInventory("Buff Poison")) {
                 player.gold += 60;
                 cout << "Kamu menjual Ramuan Buff.\n";
-            }
-            else
-            {
-                cout << "Kamu tidak memiliki Ramuan Buff untuk dijual.\n";
+            } else {
+                cout << "Kamu tidak punya Buff Poison di inventory.\n";
             }
         }
         else if (sell_choice == 4)

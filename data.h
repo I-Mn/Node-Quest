@@ -10,6 +10,7 @@
 #include <queue>
 #include <ctime>
 #include <cmath>
+#include <stack>
 using namespace std;
 
 // Algoritma Randomizer
@@ -58,19 +59,34 @@ struct Player
     int attack = 250;
     int magic = 250;
     int counter = 250;
-    int evade = 250;
+    int evade = 20;
     int skillPoint = 10;
     int exp = 0;
     int level = 1;
     int stage = 1;
 }; PlayerStats player_stats;
-struct UpgradeNode {
-    string statName;
-    int level;
-    int bonusValue;
-    bool unlocked;
-    UpgradeNode* next;
-};
+
+struct Upgrade{
+    int upgrade_hp = 0;
+    int upgrade_attack = 0;
+    int upgrade_magic = 0;
+    int upgrade_counter = 0;
+    int upgrade_evade = 0;
+
+    int baseUpgrade_hp = 50;
+    int baseUpgrade_attack = 20;
+    int baseUpgrade_magic = 20;
+    int baseUpgrade_counter = 20;
+    int baseUpgrade_evade = 5;
+}; Upgrade upgrade_stats;
+
+// struct UpgradeNode {
+//     string statName;
+//     int level;
+//     int bonusValue;
+//     bool unlocked;
+//     UpgradeNode* next;
+// };
 
 
 
@@ -236,4 +252,7 @@ map <pair<int, int>, vertexData> vertex_map;
 Player player;
 // MonsterInstance& enemy = vertex_map[posisi].monsters[0];
 
+// Inventory dengan stack
+stack<string> inventoryStack;
+const int MAX_INVENTORY_SIZE = 3;
 #endif
