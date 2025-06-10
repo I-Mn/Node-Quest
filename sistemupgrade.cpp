@@ -136,28 +136,29 @@ void upgrade(string stat){
 }
 
 void mainUpgrade() {
-    PlayerStats player;
-
     string pilihan;
-
     while (true) {
-        tampilkanStats(player);
+        tampilkanStats(player_stats);
         cout << "Skill Point: " << player_stats.skillPoint << endl;
-
-            cout << "Pilih stat untuk upgrade (hp/attack/magic/counter/evade)/keluar: ";
-            cin >> pilihan;
-            cout << endl;
-            if (pilihan == "keluar") {
-                cout << "Keluar dari menu upgrade.\n";
-                break;
-            }
-            if (player_stats.skillPoint <= 0) {
-                cout << "Skill point tidak cukup untuk upgrade.\n\n";
-                continue;
-            }else{
-                upgrade(pilihan);
-            }
+        cout << "\nDaftar harga upgrade saat ini:" << endl;
+        cout << "- HP: " << (int)(5 * pow(1.5, upgrade_stats.upgrade_hp)) << " gold" << endl;
+        cout << "- Attack: " << (int)(5 * pow(1.5, upgrade_stats.upgrade_attack)) << " gold" << endl;
+        cout << "- Magic: " << (int)(5 * pow(1.5, upgrade_stats.upgrade_magic)) << " gold" << endl;
+        cout << "- Counter: " << (int)(5 * pow(1.5, upgrade_stats.upgrade_counter)) << " gold" << endl;
+        cout << "- Evade: " << (int)(10 * pow(1.5, upgrade_stats.upgrade_evade)) << " gold" << endl;
+        cout << "\nPilih stat untuk upgrade (hp/attack/magic/counter/evade)/keluar: ";
+        cin >> pilihan;
+        cout << endl;
+        if (pilihan == "keluar") {
+            cout << "Keluar dari menu upgrade.\n";
+            break;
+        }
+        if (player_stats.skillPoint <= 0) {
+            cout << "Skill point tidak cukup untuk upgrade.\n\n";
+            continue;
+        } else {
+            upgrade(pilihan);
+        }
     }
-
 }
 

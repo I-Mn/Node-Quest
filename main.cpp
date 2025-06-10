@@ -37,7 +37,10 @@ int main(){
         transform(input.begin(), input.end(), input.begin(), ::tolower); // Ubah ke huruf kecil
 
         if (input == "keluar") {break;}
-        else if (input == "upgrade") {continue;}
+        else if (input == "upgrade") {
+            mainUpgrade();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
         else if (input == "toko") {
             if (vertex_map[posisi].tipe == Tipe::NPC && vertex_map[posisi].npc_type == NPCType::PEDAGANG_KELILING) {
                 npc_pedagang_keliling(player);

@@ -226,6 +226,9 @@ void fightEnemy(Player& player) {
                 cout << "Semua musuh di node ini telah dikalahkan!\n";
                 player_stats.exp += totalXP;
                 player.gold += totalXP / 5;
+                cout << "Kamu mendapatkan " << totalXP << " EXP dan " << totalXP / 5 << " gold!\n";
+                totalXP = 0;
+
                 break;
             }
             continue;
