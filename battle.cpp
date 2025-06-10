@@ -105,7 +105,7 @@ void fightEnemy(Player& player) {
             cout << "." << flush;
         }
         cout << endl;
-        system("cls");
+        // system("cls");
         const auto& monster_list = vertex_map[posisi].monsters;
         cout << "Ada " << monster_list.size() << " monster di sini:\n";
         cout << ascii;
@@ -238,95 +238,4 @@ void fightEnemy(Player& player) {
             break;
         }
     }
-<<<<<<< HEAD
-
-    Skill playerSkill = static_cast<Skill>(choice - 1);
-    Skill enemySkill = getRandomSkill();
-
-    cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
-    cout << flush;
-    for (int i = 0; i < 3; ++i) {
-        this_thread::sleep_for(chrono::milliseconds(500)); // jeda 0.5 detik per titik
-        cout << "." << flush;
-    }
-    cout << endl;
-
-  if (playerSkill == DODGE) {
-        bool sukses = attemptDodge(player, enemy);
-        if (sukses) return true;
-        else {
-            player.hp -= enemy.hp;
-            cout << "HP berkurang -" << enemy.hp << ". Sisa HP: " << player.hp << endl;
-            return player.hp > 0;
-        }
-    }
-
-    string result = resolveBattle(playerSkill, enemySkill);
-
-    if (result == "draw") {
-        cout << "\nSerangan imbang! Tidak ada pemenang.\n";
-        return false;
-    } else if (result == "player") {
-        cout << "\nKamu menang dalam satu ronde!\n";
-        player.xp += enemy.expReward;
-        cout << "\nKamu dapat +" << enemy.expReward << " XP. Total XP: " << player.xp << endl;
-        return true;
-    } else {
-        cout << "\nKamu kalah dalam satu ronde! -" << enemy.hp << " HP.\n";
-        player.hp -= enemy.hp;
-        if (player.hp <= 0) {
-            cout << "\nHP kamu 0! Game Over!\n";
-            return false;
-        } else {
-            cout << "\nHP tersisa: " << player.hp << endl;
-            return true;
-        }
-    }
-}
-
-void battle(PlayerStats& player, queue<Enemy>& enemyQueue) {
-    while (!enemyQueue.empty() && player.hp > 0) {
-        Enemy& current = enemyQueue.front();  
-
-        bool lanjut = fightEnemy(player, current);
-
-        if (!lanjut && player.hp <= 0) return;
-
-        // Jika player menang (fightEnemy return true) baru pop musuh
-        // Note: Kalau draw, fightEnemy akan return false, tapi HP masih > 0
-        if (lanjut || player.hp <= 0) {
-            enemyQueue.pop();
-        } else {
-            cout << "\nPertandingan diulang karena hasil imbang!\n";
-        }
-    }
-
-    if (player.hp > 0)
-        cout << "\nKamu berhasil menghadapi semua musuh!\n";
-}
-
-int main() {
-    srand(time(0));
-    PlayerStats player;
-
-    queue<Enemy> musuh;
-    musuh.push({"Tung Tung Sahur", 30, 1, 20});
-    musuh.push({"Tralalero Tralala", 40, 2, 30});
-    musuh.push({"Bombardilo Crocodilo", 50, 3, 40});
-    musuh.push({"Brbr Patapim", 30, 1, 20});
-    musuh.push({"Boborito Bandito", 40, 3, 40});
-    musuh.push({"Bombombini Guzini", 60, 2, 30});
-
-    cout << "\n===================";
-    cout << "\n    Suit Battle    ";
-    cout << "\n===================\n";
-    cout << "\nNote: HP awal kamu adalah 100\n";
-
-    battle(player, musuh);
-    
-    cout << "\n===== Permainan selesai =====" << endl;
-    cout << "\nXP akhir kamu: " << player.xp << endl;
-    cout << "\nSisa HP: " << player.hp << endl;
-
-    return 0;
 }
