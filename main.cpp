@@ -32,6 +32,7 @@ int main(){
         cout << "Masukkan Input (ketik help untuk panduan): ";
         getline(cin, input);
         // system("cls");
+        clearScreen();
         transform(input.begin(), input.end(), input.begin(), ::tolower); // Ubah ke huruf kecil
 
         if (input == "keluar") {break;}

@@ -106,6 +106,7 @@ void fightEnemy(Player& player) {
         }
         cout << endl;
         // system("cls");
+        clearScreen();
         const auto& monster_list = vertex_map[posisi].monsters;
         cout << "Ada " << monster_list.size() << " monster di sini:\n";
         cout << ascii;
