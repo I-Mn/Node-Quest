@@ -7,19 +7,22 @@
 
 using namespace std;
 
+int expThreshold = 100;
+
 void tampilkanStats(const PlayerStats& p) {
     cout << "\n=== Player Stats ===" << endl;
     cout << "HP: " << p.hp << "\nAttack: " << p.attack << "\nMagic: " << p.magic
          << "\nCounter: " << p.counter << "\nEvade: " << p.evade
          << "\nSkill Point: " << p.skillPoint << endl;
     cout << "Exp: " << p.exp << "\nLevel: " << p.level << endl;
+    cout << "Gold: " << player.gold << endl;
+    cout << "Sisa EXP untuk level up: " << expThreshold - p.exp << endl;
     cout << "Stage:" << p.stage << endl;
 }
 
 // Void Naikin Level dan Stage
 
 void checkExpAndLevelUp(PlayerStats& player) {
-    int expThreshold = 100;
     while (player.exp >= expThreshold) {
         player.exp -= expThreshold;
         player.level++;

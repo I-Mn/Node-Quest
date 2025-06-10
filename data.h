@@ -39,23 +39,14 @@ enum class NPCType { GOBLIN, WANITA_ANEH, ANAK_KECIL, AYAH, PRIA_TUA, DWARFT, BA
 struct Player
 {
     int HP = 100;
-    int healing_poison = 0;
-    string potion[3];
-    int magic_poison = 0;
-    int buff_poison = 0;
     int gold = 0;
-    int attack = 10;
-    int magic = 10;
-    int counter = 10;
-    int evade = 10;
-    int defense = 5;
     int weapon_durability = 100;
     int weapon_max_durability = 100;
     int armor_durability = 100;
     int armor_max_durability = 100;
 };
     struct PlayerStats {
-    int hp = 100;
+    int hp = 300;
     int attack = 250;
     int magic = 250;
     int counter = 250;
@@ -73,10 +64,10 @@ struct Upgrade{
     int upgrade_counter = 0;
     int upgrade_evade = 0;
 
-    int baseUpgrade_hp = 50;
-    int baseUpgrade_attack = 20;
-    int baseUpgrade_magic = 20;
-    int baseUpgrade_counter = 20;
+    int baseUpgrade_hp = 100;
+    int baseUpgrade_attack = 50;
+    int baseUpgrade_magic = 50;
+    int baseUpgrade_counter = 50;
     int baseUpgrade_evade = 5;
 }; Upgrade upgrade_stats;
 

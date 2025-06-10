@@ -163,6 +163,13 @@ int main(){
                     cout << "- " << tempStack.top() << "\n";
                     tempStack.pop();
                 }
+                cout << "Ketik 'buang' untuk membuang item dari inventory.\n";
+                cout << "'Enter' untuk kembali ke menu utama.\n";
+                cin >> input;
+                input = tolower(input[0]); // Ubah ke huruf kecil
+                if (input == "buang"){
+                    buangItem();
+                }
             }
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }

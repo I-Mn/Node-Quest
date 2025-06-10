@@ -120,7 +120,8 @@ void npc_goblin(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_goblin(player);
     }
 }
 
@@ -156,7 +157,8 @@ void npc_wanita_aneh(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_wanita_aneh(player);
     }
 }
 
@@ -195,7 +197,8 @@ void npc_anak_kecil(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_anak_kecil(player);
     }
 }
 
@@ -237,7 +240,8 @@ void npc_ayah(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_ayah(player);
     }
 }
 
@@ -277,7 +281,8 @@ void npc_pria_tua(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_pria_tua(player);
     }
 }
 
@@ -314,7 +319,8 @@ void npc_bandit_yang_menyamar(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_bandit_yang_menyamar(player);
     }
 }
 
@@ -362,10 +368,7 @@ void npc_dwarft(Player player)
 
     cout << "\na. Ya, tolong tingkatkan pedangku.\n";
     cout << "b. Ya, tolong tingkatkan armorku.\n";
-    cout << "c. Tidak, tolong perbaiki pedangku.\n";
-    cout << "d. Tidak, tolong perbaiki armorku.\n";
-    cout << "e. Aku ingin membeli senjata.\n";
-    cout << "f. Mungkin lain kali.\n";
+    cout << "c. Mungkin lain kali.\n";
 
     char choice;
     cout << "Pilihanmu: ";
@@ -374,77 +377,23 @@ void npc_dwarft(Player player)
     if (choice == 'a' || choice == 'A')
     {
         cout << "Tentu.\n";
-        player.attack += 10;
+        player_stats.attack += 10;
         cout << "Seranganmu meningkat 10 poin!\n";
     }
     else if (choice == 'b' || choice == 'B')
     {
         cout << "Baiklah.\n";
-        player.defense += 10;
+        player_stats.hp += 10;
         cout << "Pertahananmu meningkat 10 poin!\n";
     }
     else if (choice == 'c' || choice == 'C')
     {
-        cout << "Dwarf itu memeriksa pedangmu dan mulai memperbaikinya.\n";
-        player.weapon_durability = player.weapon_max_durability;
-        cout << "Pedangmu diperbaiki dan kembali ke kondisi maksimal.\n";
-    }
-    else if (choice == 'd' || choice == 'D')
-    {
-        cout << "Dwarf itu memeriksa armormu dan mulai memperbaikinya.\n";
-        player.armor_durability = player.armor_max_durability;
-        cout << "Armormu diperbaiki dan kembali ke kondisi maksimal.\n";
-    }
-    else if (choice == 'e' || choice == 'E')
-    {
-
-        int sword_price = 100;
-        int armor_price = 150;
-
-        cout << "Harga Pedang: " << sword_price << " gold\n";
-        cout << "Harga Armor: " << armor_price << " gold\n";
-
-        cout << "Pilih yang ingin kau beli:\n";
-        cout << "1. Pedang\n";
-        cout << "2. Armor\n";
-        cout << "3. Mungkin lain kali\n";
-
-        cout << "Pilihanmu: ";
-        int buy_choice;
-        cin >> buy_choice;
-
-        if (buy_choice == 1)
-        {
-            if (player.gold >= sword_price)
-            {
-                player.gold -= sword_price;
-                cout << "Kamu membeli pedang baru seharga " << sword_price << " gold!\n";
-            }
-            else
-            {
-                cout << "Gold kamu tidak cukup untuk membeli pedang.\n";
-            }
-        }
-        else if (buy_choice == 2)
-        {
-            if (player.gold >= armor_price)
-            {
-                player.gold -= armor_price;
-                cout << "Kamu membeli armor baru seharga " << armor_price << " gold!\n";
-            }
-            else
-            {
-                cout << "Gold kamu tidak cukup untuk membeli armor.\n";
-            }
-        }
-        else if (buy_choice == 3)
-        {
-            cout << "Baiklah, datanglah lagi lain kali!\n";
-        }
+        cout << "Baiklah, datang lagi lain kali!\n";
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c/d/e.\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_dwarft(player);
     }
 }
 
@@ -557,7 +506,8 @@ void npc_pedagang_keliling(Player player)
     }
     else
     {
-        cout << "Pilihan tidak valid, pilih a/b/c/d.\n";
+        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+        return npc_pedagang_keliling(player);
     }
 }
 
