@@ -52,6 +52,10 @@ void npc_goblin(Player player)
 
         if (Choice == '1')
         {
+            if (inventoryStack.size() >= MAX_INVENTORY_SIZE) {
+                cout << "Inventory penuh! Tidak bisa menambahkan item.\n";
+                return;
+            }
             if (player.gold >= healing_poison_price)
             {
                 player.gold -= healing_poison_price;
@@ -65,6 +69,10 @@ void npc_goblin(Player player)
         }
         else if (Choice == '2')
         {
+            if (inventoryStack.size() >= MAX_INVENTORY_SIZE) {
+                cout << "Inventory penuh! Tidak bisa menambahkan item.\n";
+                return;
+            }
             if (player.gold >= magic_poison_price)
             {
                 player.gold -= magic_poison_price;
@@ -78,6 +86,10 @@ void npc_goblin(Player player)
         }
         else if (Choice == '3')
         {
+            if (inventoryStack.size() >= MAX_INVENTORY_SIZE) {
+                cout << "Inventory penuh! Tidak bisa menambahkan item.\n";
+                return;
+            }
             if (player.gold >= buff_poison_price)
             {
                 player.gold -= buff_poison_price;
@@ -205,7 +217,7 @@ void npc_ayah(Player player)
     if (choice == 'a' || choice == 'A')
     {
         cout << "Kamu memberikan 50 gold kepadanya.\n";
-        player.HP += 50;
+        player_stats.exp += 50;
         player.gold -= 50;
         cout << "HP kamu bertambah 50\n";
     }
@@ -213,13 +225,13 @@ void npc_ayah(Player player)
     {
         cout << "Kamu mengabaikannya.\n";
         cout << "Dia menatapmu dengan harapan yang hancur.\n";
-        player.HP -= 20;
+        player_stats.exp -= 20;
         cout << "HP kamu berkurang 20\n";
     }
     else if (choice == 'c' || choice == 'C')
     {
         cout << "Kamu memberikan 10 gold kepadanya.\n";
-        player.HP += 10;
+        player_stats.exp += 10;
         player.gold -= 10;
         cout << "HP kamu berkurang 10\n";
     }
@@ -249,8 +261,12 @@ void npc_pria_tua(Player player)
     else if (choice == 'b' || choice == 'B')
     {
         cout << "Pria tua itu adalah bandit yang menyamar.\n";
-        cout << "Dia takut dan memberikanmu HEALING POISON sebagai tanda perdamaian.\n";
-        tambahItemKeInventory("Healing Poison");
+        if (inventoryStack.size() >= MAX_INVENTORY_SIZE) {
+            cout << "Inventory penuh! Tidak bisa menerima HEALING POISON.\n";
+        } else {
+            cout << "Dia takut dan memberikanmu HEALING POISON sebagai tanda perdamaian.\n";
+            tambahItemKeInventory("Healing Poison");
+        }
     }
     else if (choice == 'c' || choice == 'C')
     {
