@@ -2,7 +2,6 @@
 #include "map.cpp"
 #include "npc.cpp"
 using namespace std;
-// #include "battle.cpp"
 #include "sistemupgrade.cpp"
 #include <map>
 #include <set>

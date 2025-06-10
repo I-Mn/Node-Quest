@@ -3,23 +3,6 @@
 #include "inventory.h"
 using namespace std;
 
-// struct Player
-// {
-//     int HP = 100;
-//     int healing_poison = 0;
-//     int magic_poison = 0;
-//     int buff_poison = 0;
-//     int gold = 0;
-//     int attack = 10;
-//     int defense = 5;
-//     int weapon_durability = 100;
-//     int weapon_max_durability = 100;
-//     int armor_durability = 100;
-//     int armor_max_durability = 100;
-// };
-
-// NPC random
-
 void npc_goblin(Player player)
 {
     cout << "Goblin Pedagang\n";
