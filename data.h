@@ -10,6 +10,7 @@
 #include <queue>
 #include <ctime>
 #include <cmath>
+#include <stack>
 using namespace std;
 
 // Algoritma Randomizer
@@ -21,59 +22,76 @@ int randomizer(int min, int max) {
     return angka_random;
 }
 
+#include <cctype>    // untuk tolower
+
+string toLower(const string& str) {
+    string result = str;
+    transform(result.begin(), result.end(), result.begin(), [](unsigned char c){
+        return tolower(c);
+    });
+    return result;
+}
+
+
 // Data NPC
 enum class NPCType { GOBLIN, WANITA_ANEH, ANAK_KECIL, AYAH, PRIA_TUA, DWARFT, BANDIT_YANG_MENYAMAR, PEDAGANG_KELILING};
 
 struct Player
 {
     int HP = 100;
-    int healing_poison = 0;
-    int magic_poison = 0;
-    int buff_poison = 0;
     int gold = 0;
-    int attack = 10;
-    int defense = 5;
     int weapon_durability = 100;
     int weapon_max_durability = 100;
     int armor_durability = 100;
     int armor_max_durability = 100;
 };
     struct PlayerStats {
-    int hp = 100;
-    int attack = 25;
-    int magic = 25;
-    int counter = 25;
-    int evade = 25;
+    int hp = 300;
+    int attack = 250;
+    int magic = 250;
+    int counter = 250;
+    int evade = 20;
     int skillPoint = 10;
     int exp = 0;
     int level = 1;
-    int stage = 1;
+    int stage = 0;
 }; PlayerStats player_stats;
-struct UpgradeNode {
-    string statName;
-    int level;
-    int bonusValue;
-    bool unlocked;
-    UpgradeNode* next;
-};
+
+struct Upgrade{
+    int upgrade_hp = 0;
+    int upgrade_attack = 0;
+    int upgrade_magic = 0;
+    int upgrade_counter = 0;
+    int upgrade_evade = 0;
+
+    int baseUpgrade_hp = 100;
+    int baseUpgrade_attack = 50;
+    int baseUpgrade_magic = 50;
+    int baseUpgrade_counter = 50;
+    int baseUpgrade_evade = 5;
+}; Upgrade upgrade_stats;
+
+// struct UpgradeNode {
+//     string statName;
+//     int level;
+//     int bonusValue;
+//     bool unlocked;
+//     UpgradeNode* next;
+// };
 
 
 
 // Data vertex
-enum class Tipe { EMPTY, MONSTER, NPC, BONUS };
+enum class Tipe { EMPTY, MONSTER, NPC, STORY };
 
 // Enum untuk tipe monster
 enum class MonsterType {
-    BRUTE,
-    WARLOCK,
-    TRICKSTER,
-    PHANTOM,
-    SENTINEL,
-    HUMANOID,
-    BERSERKER,
-    HEXER,
-    SHADOW,
-    TITAN,
+    TUNG_TUNG_SAHUR,
+    TRALALERO_TRALALA,
+    BOMBARDILO_CROCODILO,
+    BRBR_PATAPIM,
+    BOBORITO_BANDITO,
+    BOMBOMBINI_GUZINI,
     COUNT // supaya tahu jumlah monster
 };
 
@@ -81,10 +99,10 @@ enum class MonsterType {
 struct MonsterTemplate {
     string name;
     int baseHP;
-    int baseAttack;
-    int baseMagic;
-    int baseCounter;
-    int baseEvade;
+    int percAttack;
+    int percMagic;
+    int percCounter;
+    int percEvade;
     int damageAttack;
     int damageMagic;
     int damageCounter;
@@ -94,66 +112,43 @@ struct MonsterTemplate {
 
 const MonsterTemplate monster_templates[] = {
     {
-        "Slime", 40, 
-        20, 10, 20, 50,
-        15, 10, 15,
-        10, 15
+        "Tung Tung Sahur", 60,   // baseHP
+        30, 20, 30, 20,          // baseAttack, baseMagic, baseCounter, baseEvade
+        25, 15, 20,              // damageAttack, damageMagic, damageCounter
+        30, 20                   // baseExp, evadeChance
     },
     {
-        "Goblin", 50,
-        35, 10, 25, 30,
-        20, 10, 25,
-        20, 25
+        "Tralalero Tralala", 80,
+        25, 30, 25, 20,
+        30, 25, 30,
+        50, 25
     },
     {
-        "Wolf", 80, 
-        50, 5, 20, 25,
-        40, 10, 20,
-        30, 35
+        "Bombardilo Crocodilo", 100,
+        40, 20, 30, 10,
+        40, 20, 30,
+        70, 15
     },
     {
-        "Bandit", 90, 
-        40, 10, 30, 20,
-        35, 15, 30,
-        40, 20
+        "Brbr Patapim", 60,
+        35, 15, 35, 15,
+        25, 15, 25,
+        40, 30
     },
     {
-        "Mage", 70, 
-        15, 55, 10, 20,
-        15, 55, 15,
-        45, 30
+        "Boborito Bandito", 90,
+        30, 35, 20, 15,
+        30, 35, 20,
+        60, 20
     },
     {
-        "Archer", 75, 
-        25, 10, 45, 20,
-        20, 10, 50,
-        55, 45
-    },
-    {
-        "Knight", 130, 
-        45, 5, 25, 25,
-        50, 10, 25,
-        60, 10
-    },
-    {
-        "Assassin", 85, 
-        30, 10, 40, 20,
-        25, 10, 55,
-        70, 60
-    },
-    {
-        "Warlock", 95, 
-        10, 50, 15, 25,
-        15, 60, 20,
-        80, 35
-    },
-    {
-        "Dragon", 300, 
-        45, 25, 20, 10,
-        60, 35, 25,
-        100, 25
+        "Bombombini Guzini", 120,
+        25, 40, 25, 10,
+        35, 45, 25,
+        80, 15
     }
 };
+
 
 
 // Statistik monster
@@ -177,10 +172,10 @@ struct MonsterInstance {
         type = t;
         level = lvl;
         hp = tmpl.baseHP + lvl * 10;
-        attack = tmpl.baseAttack;
-        magic = tmpl.baseMagic;
-        counter = tmpl.baseCounter;
-        evade = tmpl.baseEvade;
+        attack = tmpl.percAttack;
+        magic = tmpl.percMagic;
+        counter = tmpl.percCounter;
+        evade = tmpl.percEvade;
         damageAttack = static_cast<int>(tmpl.damageAttack * pow(1.15, lvl - 1));
         damageMagic = static_cast<int>(tmpl.damageMagic * pow(1.15, lvl - 1));
         damageCounter = static_cast<int>(tmpl.damageCounter * pow(1.15, lvl - 1));
@@ -192,6 +187,7 @@ struct MonsterInstance {
 struct vertexData {
     string name;
     int visited = 0;
+    int r = 0; // Untuk monster, jumlah monster
     Tipe tipe;
     NPCType npc_type;
     vector<MonsterInstance> monsters;
@@ -199,7 +195,7 @@ struct vertexData {
 
     vertexData() {
         int x;
-        int r = 0; // Untuk monster, jumlah monster
+
         int level = 1; // Level monster
         x = randomizer(1,100);
         if (x <= 30){
@@ -216,11 +212,11 @@ struct vertexData {
                 MonsterType mtype = static_cast<MonsterType>(randomizer(0, static_cast<int>(MonsterType::COUNT) - 1));
                 monsters.emplace_back(mtype, level);
         }}
-        else if (x > 60 && x <= 95){
+        else if (x > 60 && x <= 100){
             tipe =  Tipe::NPC;
             npc_type = static_cast<NPCType>(randomizer(0, 7));
         } else {
-            tipe = Tipe::BONUS;
+            tipe = Tipe::STORY;
         }
     }
 };
@@ -233,6 +229,9 @@ map<string, pair<int, int>> arah = {
     {"barat", {-1, 0}}
 };
 
+// Menyimpan posisi saat ini
+pair<int, int> posisi = {0, 0};  // Posisi awal
+
 // Menyimpan edge yang telah dilewati (unik dan tidak berarah)
 set<pair<pair<int, int>, pair<int, int>>> edges;
 
@@ -241,4 +240,10 @@ set<pair<int, int>> vertices;
 
 map <pair<int, int>, vertexData> vertex_map;
 
+Player player;
+// MonsterInstance& enemy = vertex_map[posisi].monsters[0];
+
+// Inventory dengan stack
+stack<string> inventoryStack;
+const int MAX_INVENTORY_SIZE = 3;
 #endif
