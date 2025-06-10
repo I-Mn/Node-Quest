@@ -148,12 +148,14 @@ void npc_wanita_aneh(Player player)
     else if (choice == 'b' || choice == 'B')
     {
         cout << "Kamu mendapatkan FAKE POISON\n";
-        player.HP -= 10;
+        player_stats.exp -= 5; // ganti dari pengurangan HP ke penambahan exp
+        cout << "EXP kamu berkurang 5\n";
     }
     else if (choice == 'c' || choice == 'C')
     {
         cout << "Ternyata wanita aneh itu adalah penyihir yang menyamar\n";
-        cout << "Dia kesal dan menyerangmu HP-100\n";
+        cout << "Dia kesal dan menyerangmu exp-100\n";
+        player_stats.exp -= 100; // ganti dari pengurangan HP ke penambahan exp
     }
     else
     {
@@ -192,8 +194,8 @@ void npc_anak_kecil(Player player)
     {
         cout << "Kamu mengabaikan anak itu.\n";
         cout << "Dia menatapmu dengan tajam dan itu membuatmu tidak nyamana\n";
-        player.HP -= 10;
-        cout << "HP kamu berkurang 10\n";
+        player_stats.exp += 10; // ganti dari pengurangan HP ke penambahan exp
+        cout << "EXP kamu bertambah 10\n";
     }
     else
     {
@@ -222,21 +224,21 @@ void npc_ayah(Player player)
         cout << "Kamu memberikan 50 gold kepadanya.\n";
         player_stats.exp += 50;
         player.gold -= 50;
-        cout << "HP kamu bertambah 50\n";
+        cout << "EXP kamu bertambah 50\n";
     }
     else if (choice == 'b' || choice == 'B')
     {
         cout << "Kamu mengabaikannya.\n";
         cout << "Dia menatapmu dengan harapan yang hancur.\n";
         player_stats.exp -= 20;
-        cout << "HP kamu berkurang 20\n";
+        cout << "EXP kamu berkurang 20\n";
     }
     else if (choice == 'c' || choice == 'C')
     {
         cout << "Kamu memberikan 10 gold kepadanya.\n";
         player_stats.exp += 10;
         player.gold -= 10;
-        cout << "HP kamu berkurang 10\n";
+        cout << "EXP kamu bertambah 10\n";
     }
     else
     {
@@ -302,13 +304,13 @@ void npc_bandit_yang_menyamar(Player player)
 
     if (choice == 'a' || choice == 'A')
     {
-        player.HP -= 20;
-        cout << "HP kamu berkurang 20.\n";
+        player_stats.exp -= 20;
+        cout << "EXP kamu berkurang 20.\n";
     }
     else if (choice == 'b' || choice == 'B')
     {
-        player.HP -= 15;
-        cout << "HP kamu berkurang 15.\n";
+        player_stats.exp -= 15;
+        cout << "EXP kamu berkurang 15.\n";
     }
     else if (choice == 'c' || choice == 'C')
     {
