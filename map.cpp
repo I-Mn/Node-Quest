@@ -9,7 +9,7 @@
 #include "data.h"
 
 using namespace std;
-// Tambahkan edge antar dua titik, pastikan (a, b) == (b, a)
+// Tambahkan edge antar dua titik
 void tambah_edge(pair<int, int> a, pair<int, int> b) {
     if (a > b) swap(a, b);
     edges.insert({a, b});
@@ -28,42 +28,42 @@ void tampilkan_edges() {
 
 // Fungsi cari npc
 pair<pair<int, int>, vector<string>> cari_npc(pair<int, int> mulai) {
-    queue <pair<int, int>> q;
-    map <pair<int, int>, pair<int, int>> parent;
+    queue<pair<int, int>> q;
+    map<pair<int, int>, pair<int, int>> parent;
     set<pair<int, int>> visited;
 
     q.push(mulai);
     visited.insert(mulai);
 
-    while (!q.empty()){
-        pair<int, int> current  = q.front();
+    while (!q.empty()) {
+        pair<int, int> current = q.front();
         q.pop();
-
-        if (vertex_map[current].npc_type == NPCType::PEDAGANG_KELILING&& current != mulai){
-            vector<pair<int, int>> path;
-            pair<int, int> step = current;
+        if (current != mulai
+            && vertex_map[current].tipe == Tipe::NPC
+            && vertex_map[current].npc_type == NPCType::PEDAGANG_KELILING)
+        {
+            // Reconstruct path seperti sebelumnya
+            vector<pair<int,int>> path;
+            auto step = current;
             while (step != mulai) {
                 path.push_back(step);
                 step = parent[step];
             }
             reverse(path.begin(), path.end());
 
+            // Konversi ke arah
             vector<string> arah_jalan;
-            pair <int, int> prev = mulai;
-            for (const auto& pos : path) {
-                if (pos.first > prev.first) {
-                    arah_jalan.push_back("timur");
-                } else if (pos.first < prev.first) {
-                    arah_jalan.push_back("barat");
-                } else if (pos.second > prev.second) {
-                    arah_jalan.push_back("utara");
-                } else if (pos.second < prev.second) {
-                    arah_jalan.push_back("selatan");
-                }
-                prev = pos;
+            auto prev = mulai;
+            for (auto& p : path) {
+                if (p.first  > prev.first)  arah_jalan.push_back("timur");
+                else if (p.first  < prev.first)  arah_jalan.push_back("barat");
+                else if (p.second > prev.second) arah_jalan.push_back("utara");
+                else                              arah_jalan.push_back("selatan");
+                prev = p;
             }
-            return {current, arah_jalan};
+            return { current, arah_jalan };
         }
+
         for (const auto& p : arah) {
             const auto& delta = p.second;
             pair<int, int> tujuan = {current.first + delta.first, current.second + delta.second};
@@ -74,9 +74,8 @@ pair<pair<int, int>, vector<string>> cari_npc(pair<int, int> mulai) {
             if (edges.find(edge) != edges.end() && visited.find(tujuan) == visited.end()) {
                 q.push(tujuan);
                 visited.insert(tujuan);
-                parent[tujuan] = current;
+                parent[tujuan] = current; // pastikan parent diisi untuk semua node yang dikunjungi
             }
-
         }
     }
     return {{-9999, -9999}, {}};

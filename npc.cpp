@@ -131,14 +131,14 @@ void npc_wanita_aneh(Player player)
     else if (choice == 'b' || choice == 'B')
     {
         cout << "Kamu mendapatkan FAKE POISON\n";
-        player_stats.exp -= 5; // ganti dari pengurangan HP ke penambahan exp
+        player_stats.exp -= 5; 
         cout << "EXP kamu berkurang 5\n";
     }
     else if (choice == 'c' || choice == 'C')
     {
         cout << "Ternyata wanita aneh itu adalah penyihir yang menyamar\n";
         cout << "Dia kesal dan menyerangmu exp-100\n";
-        player_stats.exp -= 100; // ganti dari pengurangan HP ke penambahan exp
+        player_stats.exp -= 100; 
     }
     else
     {
@@ -177,7 +177,7 @@ void npc_anak_kecil(Player player)
     {
         cout << "Kamu mengabaikan anak itu.\n";
         cout << "Dia menatapmu dengan tajam dan itu membuatmu tidak nyamana\n";
-        player_stats.exp += 10; // ganti dari pengurangan HP ke penambahan exp
+        player_stats.exp += 10; 
         cout << "EXP kamu bertambah 10\n";
     }
     else
@@ -194,9 +194,9 @@ void npc_ayah(Player player)
     cout << "\"Anakku... aku kehilangan segalanya. Aku tidak punya apa-apa lagi.\"\n";
     cout << "\"Aku hanya ingin melihat senyummu, anakku.\"\n";
 
-    cout << "\na. Memberikan 50 gold kepadanya (+50 HP)\n";
+    cout << "\na. Memberikan 50 gold kepadanya\n";
     cout << "b. Mengabaikannya\n";
-    cout << "c. Memberikan 10 gold kepadanya (-10 HP)\n";
+    cout << "c. Memberikan 10 gold kepadanya\n";
 
     char choice;
     cout << "Pilihanmu: ";
@@ -441,9 +441,9 @@ void npc_pedagang_keliling(Player player)
     else if (choice == 'b' || choice == 'B')
     {
         cout << "Kamu ingin menjual beberapa ramuan. Berapa banyak yang ingin kamu jual?\n";
-        cout << "1. Ramuan Healing\n";
-        cout << "2. Ramuan Magic\n";
-        cout << "3. Ramuan Buff\n";
+        cout << "1. Ramuan Healing(40 Gold)\n";
+        cout << "2. Ramuan Magic(50 Gold) \n";
+        cout << "3. Ramuan Buff(60 Gold)\n";
         cout << "4. Mungkin lain kali.\n";
 
         int sell_choice;

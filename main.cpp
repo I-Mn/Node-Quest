@@ -43,8 +43,11 @@ int main(){
         else if (input == "toko") {
             if (vertex_map[posisi].tipe == Tipe::NPC && vertex_map[posisi].npc_type == NPCType::PEDAGANG_KELILING) {
                 npc_pedagang_keliling(player);
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
             } else {
-                 auto result = cari_npc(posisi);
+                auto result = cari_npc(posisi);
+
             if (result.first.first == -9999) {
                 cout << "NPC tidak ditemukan.\n";
             } else {
