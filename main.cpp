@@ -29,6 +29,10 @@ int main(){
     while (true) {
         checkExpAndLevelUp(player_stats);
         checkLevelAndUpdateStage(player_stats);
+        if (player_stats.stage == 4) {
+            cout << "Kamu telah menyelesaikan semua stage! Permainan selesai.\n";
+            break;
+        }
         cout << "Masukkan Input (ketik help untuk panduan): ";
         getline(cin, input);
         // system("cls");
