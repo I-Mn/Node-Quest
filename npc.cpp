@@ -154,8 +154,8 @@ void npc_anak_kecil(Player player)
     cout << "\"Paman pernah membunuh seseorang...? Apakah karena itu... rekan-rekan paman tak kembali?\"\n";
     cout << "\"Apakah paman tidak menyesal telah membunuh seseorang....?\"\n";
 
-    cout << "\na. \"Aku terpaksa… untuk bertahan.\" (+10 HP)\n";
-    cout << "b. \"Tidak. Mereka pantas mendapatkannya.\" (-10 HP)\n";
+    cout << "\na. Aku terpaksa… untuk bertahan.\n";
+    cout << "b. Tidak. Mereka pantas mendapatkannya.\n";
     cout << "c. Mengabaikan anak kecil (Anak itu berlari sambil menangis)\n";
 
     char choice;
@@ -345,42 +345,42 @@ void tampilkan_bergantian(Player player) {
 
 // NPC untuk membeli dan memnjual barang
 
-void npc_dwarft(Player player)
-{
-    cout << "Seorang dwarf tampak sibuk menempa pedang di sebuah bengkel tua. Dia meilatmu.\n";
-    cout << "Ah, seorang petualang! Kau mau kuperkuat senjatamu?\n";
-    cout << "Aku bisa menambahkan kekuatan padanya. \n";
+// void npc_dwarft(Player player)
+// {
+//     cout << "Seorang dwarf tampak sibuk menempa pedang di sebuah bengkel tua. Dia meilatmu.\n";
+//     cout << "Ah, seorang petualang! Kau mau kuperkuat senjatamu?\n";
+//     cout << "Aku bisa menambahkan kekuatan padanya. \n";
 
-    cout << "\na. Ya, tolong tingkatkan pedangku.\n";
-    cout << "b. Ya, tolong tingkatkan armorku.\n";
-    cout << "c. Mungkin lain kali.\n";
+//     cout << "\na. Ya, tolong tingkatkan pedangku.\n";
+//     cout << "b. Ya, tolong tingkatkan armorku.\n";
+//     cout << "c. Mungkin lain kali.\n";
 
-    char choice;
-    cout << "Pilihanmu: ";
-    cin >> choice;
+//     char choice;
+//     cout << "Pilihanmu: ";
+//     cin >> choice;
 
-    if (choice == 'a' || choice == 'A')
-    {
-        cout << "Tentu.\n";
-        player_stats.attack += 10;
-        cout << "Seranganmu meningkat 10 poin!\n";
-    }
-    else if (choice == 'b' || choice == 'B')
-    {
-        cout << "Baiklah.\n";
-        player_stats.hp += 10;
-        cout << "Pertahananmu meningkat 10 poin!\n";
-    }
-    else if (choice == 'c' || choice == 'C')
-    {
-        cout << "Baiklah, datang lagi lain kali!\n";
-    }
-    else
-    {
-        cout << "Pilihan tidak valid, silakan pilih lagi.\n";
-        return npc_dwarft(player);
-    }
-}
+//     if (choice == 'a' || choice == 'A')
+//     {
+//         cout << "Tentu.\n";
+//         player_stats.attack += 10;
+//         cout << "Seranganmu meningkat 10 poin!\n";
+//     }
+//     else if (choice == 'b' || choice == 'B')
+//     {
+//         cout << "Baiklah.\n";
+//         player_stats.hp += 10;
+//         cout << "Pertahananmu meningkat 10 poin!\n";
+//     }
+//     else if (choice == 'c' || choice == 'C')
+//     {
+//         cout << "Baiklah, datang lagi lain kali!\n";
+//     }
+//     else
+//     {
+//         cout << "Pilihan tidak valid, silakan pilih lagi.\n";
+//         return npc_dwarft(player);
+//     }
+// }
 
 void npc_pedagang_keliling(Player player)
 {
