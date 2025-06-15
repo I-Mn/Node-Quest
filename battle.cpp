@@ -94,16 +94,18 @@ string resolveBattle(Skill player, Skill enemy) {
 return "Unknown";}
 
 void fightEnemy(Player& player) {
+    clearScreen();
+    const auto& monster_list = vertex_map[posisi].monsters;
+    cout << "Ada " << monster_list.size() << " monster di sini:\n";
+            for (int j = 0; j < 2; ++j) {
+            this_thread::sleep_for(chrono::milliseconds(500));
+            cout << "." << flush;
+        }
     player.HP = player_stats.hp;
     int nomor = 1;
     while (!vertex_map[posisi].monsters.empty()) {
         MonsterInstance& enemy = vertex_map[posisi].monsters[0];
         string ascii = getEnemyAscii(enemy.name);
-
-        for (int j = 0; j < 3; ++j) {
-            this_thread::sleep_for(chrono::milliseconds(500));
-            cout << "." << flush;
-        }
         cout << endl;
         // system("cls");
         clearScreen();
@@ -188,7 +190,7 @@ void fightEnemy(Player& player) {
         Skill enemySkill = getRandomSkill(0); // selalu melawan monsters[0]
 
         cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
-        for (int j = 0; j < 3; ++j) {
+        for (int j = 0; j < 2; ++j) {
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "." << flush;
         }
@@ -242,9 +244,12 @@ void fightEnemy(Player& player) {
                 player.gold += (int)(totalXP / 2);
                 cout << "Kamu mendapatkan " << totalXP << " EXP dan " << totalXP / 2 << " gold!\n";
                 totalXP = 0;
-
                 break;
             }
+             cout << "\nTekan 'Enter' untuk melanjutkan pertarungan...\n";
+            cin.clear();
+            cin.get();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
 
@@ -255,5 +260,9 @@ void fightEnemy(Player& player) {
             inventoryStack = stack<string>(); // Kosongkan inventory
             break;
         }
+        cout << "\nTekan 'Enter' untuk melanjutkan pertarungan...\n";
+        cin.clear();
+        cin.get();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }

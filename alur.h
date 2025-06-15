@@ -7,17 +7,19 @@
 #include "data.h"
 
 using namespace std;
+#include <limits>
 
 void waitForEnter() {
     cout << "\n[ Tekan ENTER untuk melanjutkan... ]";
-    posisi = {0, 0}; // Reset posisi ke awal
-    vertex_map.clear(); // Kosongkan peta vertex
-    vertices.clear(); // Kosongkan daftar vertex
-    edges.clear(); // Kosongkan daftar edge
-    cin.clear(); // Bersihkan status kesalahan pada cin
-    cin.ignore();
-    cin.get();
+    posisi = {0, 0};
+    vertex_map.clear();
+    vertices.clear();
+    edges.clear();
+
+    cin.clear(); // Reset error flag
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Buang sampai newline (jika ada)
 }
+
 
 void showIntro() {
     cout << "=====================================\n";
@@ -30,8 +32,7 @@ void showIntro() {
     cout << "Mereka menyebutnya sebagai ANOMALI.\n";
     cout << "Hanya ada dua pilihan: bertarung atau mati.\n";
 
-    waitForEnter();
-}
+    waitForEnter();}
 
 void stage1() {
     cout << "\n--- STAGE 1 ---\n";

@@ -5,6 +5,7 @@
 using namespace std;
 
 void help() {
+    cout << "\n";
     cout << "=== Bantuan Permainan Node Quest ===\n";
     cout << "* Gunakan perintah arah (utara, selatan, timur, barat) untuk berpindah node.\n";
     cout << "* Setiap node memiliki tipe: STORY, MONSTER, NPC, atau EMPTY.\n";

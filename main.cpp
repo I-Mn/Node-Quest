@@ -21,19 +21,30 @@ int main(){
     vertex_map[posisi] = vertexData(); // Inisialisasi vertex awal 
 
     string input;
-
+    showIntro();
     vertex_map[posisi].tipe = Tipe::STORY;
     vertex_map[posisi].visited = 1;
-    showIntro();
     help();
     while (true) {
         checkExpAndLevelUp(player_stats);
         checkLevelAndUpdateStage(player_stats);
+
+        Tipe tipe_vertex = vertex_map[posisi].tipe;
+        string tipe_str;
+        switch (tipe_vertex) {
+            case Tipe::EMPTY: tipe_str = "EMPTY"; break;
+            case Tipe::MONSTER: tipe_str = "MONSTER"; break;
+            case Tipe::NPC: tipe_str = "NPC"; break;
+            case Tipe::STORY: tipe_str = "STORY"; break;
+        }
         if (player_stats.stage == 4) {
             cout << "Kamu telah menyelesaikan semua stage! Permainan selesai.\n";
             break;
+        };
+        if (tipe_str != "EMPTY"){
+             cout << "Posisi saat ini (" << posisi.first << ", " << posisi.second << ") dengan tipe "<<tipe_str;
         }
-        cout << "Masukkan Input (ketik help untuk panduan): ";
+        cout <<"\nMasukkan Input (ketik help untuk panduan): ";
         getline(cin, input);
         // system("cls");
         clearScreen();
@@ -79,15 +90,15 @@ int main(){
             posisi = tujuan;
 
             // Ambil tipe vertex dan tampilkan
-            Tipe tipe_vertex = vertex_map[posisi].tipe;
-            string tipe_str;
+            tipe_vertex = vertex_map[posisi].tipe;
             switch (tipe_vertex) {
                 case Tipe::EMPTY: tipe_str = "EMPTY"; break;
                 case Tipe::MONSTER: tipe_str = "MONSTER"; break;
                 case Tipe::NPC: tipe_str = "NPC"; break;
-                case Tipe::STORY: tipe_str = "STORY"; break;
-            }
-            cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";
+                case Tipe::STORY: tipe_str = "STORY"; break;}
+            
+            if (tipe_str != "STORY"){
+            cout << "Berpindah ke: (" << posisi.first << ", " << posisi.second << ") dengan tipe: " << tipe_str << "\n";}
             if (tipe_vertex == Tipe::NPC) {
                 NPCType npc_type = vertex_map[posisi].npc_type;
                 if (vertex_map[posisi].visited == 0 && npc_type != NPCType::PEDAGANG_KELILING) {
@@ -153,10 +164,12 @@ int main(){
     } 
     else if(input == "help") {
             help();
+            cout << "Tekan 'Enter' untuk kembali ke menu utama.\n";
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     else if (input == "stats") {
             tampilkanStats(player_stats);
+            cout << "Tekan 'Enter' untuk kembali ke menu utama.\n";
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     else if (input == "upgrade") {
@@ -174,14 +187,17 @@ int main(){
                     tempStack.pop();
                 }
                 cout << "Ketik 'buang' untuk membuang item dari inventory.\n";
-                cout << "'Enter' untuk kembali ke menu utama.\n";
-                cin >> input;
-                input = tolower(input[0]); // Ubah ke huruf kecil
-                if (input == "buang"){
+                cout << "Tekan 'Enter' untuk kembali ke menu utama.\n";
+                string invInput;
+                getline(cin, invInput);
+                if (invInput.empty()) {
+                    continue; // Kembali ke menu utama
+                }
+                transform(invInput.begin(), invInput.end(), invInput.begin(), ::tolower);
+                if (invInput == "buang") {
                     buangItem();
                 }
             }
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     else if(input == "tambahkan exp") {
             cout << "Tambahkan EXP dan Level Up:\n";
