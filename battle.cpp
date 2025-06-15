@@ -101,7 +101,7 @@ void fightEnemy(Player& player) {
         string ascii = getEnemyAscii(enemy.name);
 
         for (int j = 0; j < 3; ++j) {
-            this_thread::sleep_for(chrono::milliseconds(500));
+            this_thread::sleep_for(chrono::milliseconds(2400));
             cout << "." << flush;
         }
         cout << endl;
@@ -189,7 +189,7 @@ void fightEnemy(Player& player) {
 
         cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
         for (int j = 0; j < 3; ++j) {
-            this_thread::sleep_for(chrono::milliseconds(500));
+            this_thread::sleep_for(chrono::milliseconds(2400));
             cout << "." << flush;
         }
         cout << endl;
