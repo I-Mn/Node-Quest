@@ -130,7 +130,7 @@ void fightEnemy(Player& player) {
 
         cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
         for (int j = 0; j < 3; ++j) {
-            this_thread::sleep_for(chrono::milliseconds(2400));
+            this_thread::sleep_for(chrono::milliseconds(3000));
             cout << "." << flush;
         }
         cout << endl;
