@@ -8,7 +8,6 @@
 using namespace std;
 #include "ascii.cpp"
 
-// Gunakan enum Skill dari file ini
 enum Skill { ATTACK, MAGIC, COUNTER, DODGE , POISON};
 
 string skillToString(Skill s) {
@@ -123,6 +122,10 @@ void fightEnemy(Player& player) {
         int choice;
         int damageToEnemy = 0;
         int damageToPlayer = 0;
+        bool enemyStunned = false;
+        bool stunNextTurn = false;
+        bool playerStunned = false;
+        bool stunPlayerNextTurn = false;
         while (true) {
             cout << "Pilihan Aksi:\n";
             cout << "1. Attack  - Serangan langsung, menang melawan Magic.\n";
@@ -140,8 +143,7 @@ void fightEnemy(Player& player) {
             }
             if (choice == 22) {
                 cout << "Menggunakan cheat mode!\n";
-                damageToEnemy = 9999999; // Set damage ke nilai maksimum
-                // Langsung kalahkan musuh
+                damageToEnemy = 9999999; 
                 enemy.hp = 0;
                 break;
             }
@@ -174,6 +176,14 @@ void fightEnemy(Player& player) {
                     buffPoisonBuff = 3;
                     cout << "Serangan attack & counter x3 untuk giliran ini.\n";
                     usedPoison = true;
+                } else if (topPoison == "Stun Potion") {
+                    stunNextTurn = true;
+                    cout << "Kamu menggunakan Stun Potion! Musuh akan terkena stun di ronde berikutnya.\n";
+                    usedPoison = true;
+                } else if (topPoison == "Player Stun Potion") {
+                    stunPlayerNextTurn = true;
+                    cout << "Kamu menggunakan Player Stun Potion! Kamu akan terkena stun di ronde berikutnya.\n";
+                    usedPoison = true;
                 } else {
                     cout << "Item tidak dikenal, tidak ada efek.\n";
                 }
@@ -187,7 +197,7 @@ void fightEnemy(Player& player) {
         }
 
         Skill playerSkill = static_cast<Skill>(choice - 1);
-        Skill enemySkill = getRandomSkill(0); // selalu melawan monsters[0]
+        Skill enemySkill = getRandomSkill(0);
 
         cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
         for (int j = 0; j < 3; ++j) {
@@ -196,19 +206,30 @@ void fightEnemy(Player& player) {
         }
         cout << endl;
 
-        // Jika keduanya dodge
+        
         if (playerSkill == DODGE && enemySkill == DODGE) {
             cout << "Kedua pihak menghindar! Tidak ada yang terkena serangan.\n";
             continue;
         }
 
-        if (playerSkill == ATTACK) damageToEnemy = player_stats.attack * buffPoisonBuff;
-        else if (playerSkill == MAGIC) damageToEnemy = player_stats.magic * magicPoisonBuff;
-        else if (playerSkill == COUNTER) damageToEnemy = player_stats.counter * buffPoisonBuff;
-
-        if (enemySkill == ATTACK) damageToPlayer = enemy.damageAttack;
-        else if (enemySkill == MAGIC) damageToPlayer = enemy.damageMagic;
-        else if (enemySkill == COUNTER) damageToPlayer = enemy.damageCounter;
+        if (enemyStunned) {
+            cout << "Musuh terkena stun dan tidak bisa menyerang ronde ini!\n";
+            damageToPlayer = 0;
+            enemyStunned = false; 
+        } else {
+            if (enemySkill == ATTACK) damageToPlayer = enemy.damageAttack;
+            else if (enemySkill == MAGIC) damageToPlayer = enemy.damageMagic;
+            else if (enemySkill == COUNTER) damageToPlayer = enemy.damageCounter;
+        }
+        if (playerStunned) {
+            cout << "Kamu terkena stun dan tidak bisa menyerang ronde ini!\n";
+            damageToEnemy = 0;
+            playerStunned = false; 
+        } else {
+            if (playerSkill == ATTACK) damageToEnemy = player_stats.attack * buffPoisonBuff;
+            else if (playerSkill == MAGIC) damageToEnemy = player_stats.magic * magicPoisonBuff;
+            else if (playerSkill == COUNTER) damageToEnemy = player_stats.counter * buffPoisonBuff;
+        }
 
         string result = resolveBattle(playerSkill, enemySkill);
 
@@ -225,13 +246,27 @@ void fightEnemy(Player& player) {
             player.HP -= damageToPlayer;
             cout << "Musuh menang! Kamu menerima " << damageToPlayer << " damage.\n";
         } else if (result == "dodge") {
-            continue; // tidak ada damage yang masuk
+
+            int stunChance = randomizer(1, 100);
+            if (stunNextTurn || stunChance <= 40) {
+                cout << "Musuh terkena stun dan tidak bisa menyerang ronde berikutnya!\n";
+                enemyStunned = true;
+                stunNextTurn = false;
+            }
+            // Cek stun chance jika musuh berhasil dodge
+            int stunPlayerChance = randomizer(1, 100);
+            if (stunPlayerNextTurn || stunPlayerChance <= 40) {
+                cout << "Kamu terkena stun dan tidak bisa menyerang ronde berikutnya!\n";
+                playerStunned = true;
+                stunPlayerNextTurn = false;
+            }
+            continue;
         }
 
         cout << "HP Musuh sekarang: " << max(0, enemy.hp) << endl;
         cout << "HP Kamu sekarang : " << max(0, player.HP) << endl;
 
-        // Cek apakah musuh kalah
+        
         if (enemy.hp <= 0) {
             cout << "Musuh dikalahkan!\n";
             nomor++;
@@ -253,19 +288,18 @@ void fightEnemy(Player& player) {
             continue;
         }
 
-        // Cek apakah player kalah
         if (player.HP <= 0) {
             cout << "Kamu kalah dalam pertempuran...\n";
-            posisi = {0, 0}; // Reset posisi ke awal
-            inventoryStack = stack<string>(); // Kosongkan inventory
+            posisi = {0, 0}; 
+            inventoryStack = stack<string>();
             int maxReduceGold = max(100, player.gold / 2);
             int reduceGold = min(maxReduceGold, player.gold);
             if (player_stats.level > 10){
              player_stats.level = max(10, (player_stats.level/10) * 10);
             }else{
-            player_stats.level = 1; // Reset level ke 1
+            player_stats.level = 1;
 }
-            player_stats.exp = 0; // Reset EXP
+            player_stats.exp = 0;
             player.gold -= reduceGold;
             cout << "Kamu kehilangan " << reduceGold << " gold. Gold tersisa: " << player.gold << endl;
             cout << "Semua item di inventory telah dibuang.\n";
