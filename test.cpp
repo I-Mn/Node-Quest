@@ -1,17 +1,17 @@
 #include <iostream>
 using namespace std;
 #include <cmath>
-int tambahanA;
+int tambahanA = 1;
 int jumlahTambahanA = 200;
-int baseTambahanA = 100; // Nilai dasar untuk tambahan A
+int baseTambahanA = 50; // Nilai dasar untuk tambahan A
 
 void PerhitunganA(){
-    jumlahTambahanA += (int)(baseTambahanA * pow(1.2, tambahanA-1));
+    jumlahTambahanA += (int)(baseTambahanA * pow(1.235, tambahanA-1));
     cout << tambahanA;
     cout << "Jumlah Tambahan A sekarang: " << jumlahTambahanA << endl;
     tambahanA++;
 }
-int tambahanB;
+int tambahanB = 1;
 int jumlahTambahanB = 50;
 int baseTambahanB = 50; // Nilai dasar untuk tambahan B
 void PerhitunganB(){

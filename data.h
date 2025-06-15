@@ -193,22 +193,30 @@ struct MonsterInstance {
     int damageMagic;
     int damageCounter;
     int expReward; 
+    int evadeChance; // Persentase chance untuk menghindar
     MonsterType type;
 
     MonsterInstance(MonsterType t, int lvl) {
         const MonsterTemplate& tmpl = monster_templates[static_cast<int>(t)];
         name = tmpl.name;
         type = t;
-        level = lvl;
-        hp += int(tmpl.baseHP * pow(1.22, lvl-1)); // HP monster berdasarkan level
+        level =  lvl;
+        hp = tmpl.baseHP; // HP monster berdasarkan level
+        hp += int(tmpl.baseHP * pow(1.23, lvl-1)); // HP monster berdasarkan level
         attack = tmpl.percAttack;
         magic = tmpl.percMagic;
         counter = tmpl.percCounter;
         evade = tmpl.percEvade;
-        damageAttack += int(tmpl.damageAttack * pow(1.22, lvl - 1)); // Damage monster berdasarkan level
-        damageMagic += int(tmpl.damageMagic * pow(1.22, lvl - 1));
-        damageCounter += int(tmpl.damageCounter * pow(1.22, lvl - 1));
-        expReward = int(tmpl.baseExp * pow(1.22, lvl - 1)); // EXP reward monster berdasarkan level
+        damageAttack = tmpl.damageAttack;
+        damageMagic = tmpl.damageMagic;
+        damageCounter = tmpl.damageCounter;
+        evadeChance = tmpl.evadeChance;
+        evadeChance += int(tmpl.evadeChance * pow(1.21, lvl - 1)); // Evade monster berdasarkan level
+        evadeChance = min(evadeChance, 85); // Batas maksimum evade chance
+        damageAttack += int(tmpl.damageAttack * pow(1.23, lvl - 1)); // Damage monster berdasarkan level
+        damageMagic += int(tmpl.damageMagic * pow(1.23, lvl - 1));
+        damageCounter += int(tmpl.damageCounter * pow(1.23, lvl - 1));
+        expReward = int(tmpl.baseExp * pow(1.23, lvl - 1)); // EXP reward monster berdasarkan level
     }
 };
 

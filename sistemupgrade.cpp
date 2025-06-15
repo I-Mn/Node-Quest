@@ -13,7 +13,7 @@ void checkExpAndLevelUp(PlayerStats& player) {
     while (player.exp >= expThreshold) {
         player.exp -= expThreshold;
         player.level++;
-        expThreshold = expThreshold * 1.2;
+        expThreshold = expThreshold * 1.231;
         player.skillPoint += 2;
         cout << "Level naik! Sekarang level " << player.level << endl;
     }
@@ -48,27 +48,27 @@ void checkLevelAndUpdateStage(PlayerStats& player) {
 void upgrade(string stat){
     int cost = 0;
     if (stat == "hp") {
-        cost = (int)(5 * pow(1.5, upgrade_stats.upgrade_hp));
+        cost = (int)(5 * pow(1.2, upgrade_stats.upgrade_hp));
         if (player.gold < cost) {
             cout << "Gold tidak cukup untuk upgrade HP. Dibutuhkan: " << cost << ", Gold kamu: " << player.gold << endl;
             return;
         }
         player.gold -= cost;
-        player_stats.hp = (int)(upgrade_stats.baseUpgrade_hp * pow(1.2, upgrade_stats.upgrade_hp));
-        cout << "HP ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_hp * pow(1.2, upgrade_stats.upgrade_hp)) << "! Total HP sekarang: " << player_stats.hp << endl;
+        player_stats.hp = (int)(upgrade_stats.baseUpgrade_hp * pow(1.235, upgrade_stats.upgrade_hp));
+        cout << "HP ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_hp * pow(1.235, upgrade_stats.upgrade_hp)) << "! Total HP sekarang: " << player_stats.hp << endl;
         cout << "Gold terpakai: " << cost << ", Gold tersisa: " << player.gold << endl;
         upgrade_stats.upgrade_hp++;
         player_stats.skillPoint--;
     }
     else if (stat == "attack") {
-        cost = (int)(5 * pow(1.5, upgrade_stats.upgrade_attack));
+        cost = (int)(5 * pow(1.2, upgrade_stats.upgrade_attack));
         if (player.gold < cost) {
             cout << "Gold tidak cukup untuk upgrade Attack. Dibutuhkan: " << cost << ", Gold kamu: " << player.gold << endl;
             return;
         }
         player.gold -= cost;
-        player_stats.attack += (int)(upgrade_stats.baseUpgrade_attack * pow(1.2, upgrade_stats.upgrade_attack));
-        cout << "Attack ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_attack * pow(1.2, upgrade_stats.upgrade_attack)) << "! Total Attack sekarang: " << player_stats.attack << endl;
+        player_stats.attack += (int)(upgrade_stats.baseUpgrade_attack * pow(1.235, upgrade_stats.upgrade_attack));
+        cout << "Attack ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_attack * pow(1.235, upgrade_stats.upgrade_attack)) << "! Total Attack sekarang: " << player_stats.attack << endl;
         cout << "Gold terpakai: " << cost << ", Gold tersisa: " << player.gold << endl;
         upgrade_stats.upgrade_attack++;
         player_stats.skillPoint--;
@@ -80,8 +80,8 @@ void upgrade(string stat){
             return;
         }
         player.gold -= cost;
-        player_stats.magic += (int)(upgrade_stats.baseUpgrade_magic * pow(1.2, upgrade_stats.upgrade_magic));
-        cout << "Magic ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_magic * pow(1.2, upgrade_stats.upgrade_magic)) << "! Total Magic sekarang: " << player_stats.magic << endl;
+        player_stats.magic += (int)(upgrade_stats.baseUpgrade_magic * pow(1.235, upgrade_stats.upgrade_magic));
+        cout << "Magic ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_magic * pow(1.235, upgrade_stats.upgrade_magic)) << "! Total Magic sekarang: " << player_stats.magic << endl;
         cout << "Gold terpakai: " << cost << ", Gold tersisa: " << player.gold << endl;
         upgrade_stats.upgrade_magic++;
         player_stats.skillPoint--;
@@ -93,8 +93,8 @@ void upgrade(string stat){
             return;
         }
         player.gold -= cost;
-        player_stats.counter += (int)(upgrade_stats.baseUpgrade_counter * pow(1.2, upgrade_stats.upgrade_counter));
-        cout << "Counter ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_counter * pow(1.2, upgrade_stats.upgrade_counter)) << "! Total Counter sekarang: " << player_stats.counter << endl;
+        player_stats.counter += (int)(upgrade_stats.baseUpgrade_counter * pow(1.235, upgrade_stats.upgrade_counter));
+        cout << "Counter ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_counter * pow(1.235, upgrade_stats.upgrade_counter)) << "! Total Counter sekarang: " << player_stats.counter << endl;
         cout << "Gold terpakai: " << cost << ", Gold tersisa: " << player.gold << endl;
         upgrade_stats.upgrade_counter++;
         player_stats.skillPoint--;

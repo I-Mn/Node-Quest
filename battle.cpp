@@ -50,7 +50,7 @@ string dodgeAttempt(string side){
     }
     else if (side == "enemy"){
         int x = randomizer(1, 100);
-        if (x <= vertex_map[posisi].monsters[0].evade) {
+        if (x <= vertex_map[posisi].monsters[0].evadeChance) {
             return "dodge";
         } else {
             return "fail";
@@ -260,7 +260,11 @@ void fightEnemy(Player& player) {
             inventoryStack = stack<string>(); // Kosongkan inventory
             int maxReduceGold = max(100, player.gold / 2);
             int reduceGold = min(maxReduceGold, player.gold);
-            player_stats.level = max(10, (player_stats.level/10) * 10);
+            if (player_stats.level > 10){
+             player_stats.level = max(10, (player_stats.level/10) * 10);
+            }else{
+            player_stats.level = 1; // Reset level ke 1
+}
             player_stats.exp = 0; // Reset EXP
             player.gold -= reduceGold;
             cout << "Kamu kehilangan " << reduceGold << " gold. Gold tersisa: " << player.gold << endl;
