@@ -190,7 +190,7 @@ void fightEnemy(Player& player) {
         Skill enemySkill = getRandomSkill(0); // selalu melawan monsters[0]
 
         cout << "\nKamu: " << skillToString(playerSkill) << "  |  Musuh: " << skillToString(enemySkill) << endl;
-        for (int j = 0; j < 2; ++j) {
+        for (int j = 0; j < 3; ++j) {
             this_thread::sleep_for(chrono::milliseconds(500));
             cout << "." << flush;
         }
