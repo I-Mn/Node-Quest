@@ -200,15 +200,15 @@ struct MonsterInstance {
         name = tmpl.name;
         type = t;
         level = lvl;
-        hp = static_cast<int>(tmpl.baseHP * pow(1.15, lvl - 1)); // HP monster berdasarkan level
+        hp += int(tmpl.baseHP * pow(1.22, lvl-1)); // HP monster berdasarkan level
         attack = tmpl.percAttack;
         magic = tmpl.percMagic;
         counter = tmpl.percCounter;
         evade = tmpl.percEvade;
-        damageAttack = static_cast<int>(tmpl.damageAttack * pow(1.15, lvl - 1));
-        damageMagic = static_cast<int>(tmpl.damageMagic * pow(1.15, lvl - 1));
-        damageCounter = static_cast<int>(tmpl.damageCounter * pow(1.15, lvl - 1));
-        expReward = static_cast<int>(tmpl.baseExp * pow(1.3, level - 1)); // EXP reward berdasarkan level
+        damageAttack += int(tmpl.damageAttack * pow(1.22, lvl - 1)); // Damage monster berdasarkan level
+        damageMagic += int(tmpl.damageMagic * pow(1.22, lvl - 1));
+        damageCounter += int(tmpl.damageCounter * pow(1.22, lvl - 1));
+        expReward = int(tmpl.baseExp * pow(1.22, lvl - 1)); // EXP reward monster berdasarkan level
     }
 };
 
