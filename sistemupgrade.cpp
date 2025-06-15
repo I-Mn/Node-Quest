@@ -54,7 +54,7 @@ void upgrade(string stat){
             return;
         }
         player.gold -= cost;
-        player_stats.hp = (int)(upgrade_stats.baseUpgrade_hp * pow(1.235, upgrade_stats.upgrade_hp));
+        player_stats.hp += (int)(upgrade_stats.baseUpgrade_hp * pow(1.235, upgrade_stats.upgrade_hp));
         cout << "HP ditingkatkan +" << (int)(upgrade_stats.baseUpgrade_hp * pow(1.235, upgrade_stats.upgrade_hp)) << "! Total HP sekarang: " << player_stats.hp << endl;
         cout << "Gold terpakai: " << cost << ", Gold tersisa: " << player.gold << endl;
         upgrade_stats.upgrade_hp++;

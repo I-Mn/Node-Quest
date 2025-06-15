@@ -266,7 +266,25 @@ void fightEnemy(Player& player) {
         cout << "HP Musuh sekarang: " << max(0, enemy.hp) << endl;
         cout << "HP Kamu sekarang : " << max(0, player.HP) << endl;
 
-        
+            if (player.HP <= 0) {
+            cout << "Kamu kalah dalam pertempuran...\n";
+            posisi = {0, 0}; 
+            inventoryStack = stack<string>();
+            int maxReduceGold = max(100, player.gold / 2);
+            int reduceGold = min(maxReduceGold, player.gold);
+            if (player_stats.level > 10){
+             player_stats.level = max(10, (player_stats.level/10) * 10);
+            }else{
+            player_stats.level = 1;
+}
+            player_stats.exp = 0;
+            player.gold -= reduceGold;
+            cout << "Kamu kehilangan " << reduceGold << " gold. Gold tersisa: " << player.gold << endl;
+            cout << "Semua item di inventory telah dibuang.\n";
+            cout << "Level kamu dikurangi ke " << player_stats.level << ". EXP direset ke 0.\n";
+            cout << "Kamu kembali ke titik awal.\n";
+            break;
+        }
         if (enemy.hp <= 0) {
             cout << "Musuh dikalahkan!\n";
             nomor++;
@@ -288,25 +306,6 @@ void fightEnemy(Player& player) {
             continue;
         }
 
-        if (player.HP <= 0) {
-            cout << "Kamu kalah dalam pertempuran...\n";
-            posisi = {0, 0}; 
-            inventoryStack = stack<string>();
-            int maxReduceGold = max(100, player.gold / 2);
-            int reduceGold = min(maxReduceGold, player.gold);
-            if (player_stats.level > 10){
-             player_stats.level = max(10, (player_stats.level/10) * 10);
-            }else{
-            player_stats.level = 1;
-}
-            player_stats.exp = 0;
-            player.gold -= reduceGold;
-            cout << "Kamu kehilangan " << reduceGold << " gold. Gold tersisa: " << player.gold << endl;
-            cout << "Semua item di inventory telah dibuang.\n";
-            cout << "Level kamu dikurangi ke " << player_stats.level << ". EXP direset ke 0.\n";
-            cout << "Kamu kembali ke titik awal.\n";
-            break;
-        }
         cout << "\nTekan 'Enter' untuk melanjutkan pertarungan...\n";
         cin.clear();
         cin.get();
