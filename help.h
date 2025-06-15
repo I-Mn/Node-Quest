@@ -10,6 +10,8 @@ void help() {
     cout << "* Gunakan perintah arah (utara, selatan, timur, barat) untuk berpindah node.\n";
     cout << "* Setiap node memiliki tipe: STORY, MONSTER, NPC, atau EMPTY.\n";
     cout << "* Lawan monster satu per satu di node bertipe MONSTER hingga semua dikalahkan.\n";
+    cout << "Sistem pertarungan seperti suit dimana ATTACK>MAGIC>COUNTER>ATTACK\n";
+    cout << "Evade memungkinkan kamu menghindari serangan musuh dan berkemungkinan untuk menstun musuh\n";
     cout << "* Interaksi dengan NPC bisa memberi bantuan, cerita, atau kejutan.\n";
     cout << "* NPC Pedagang Keliling memungkinkan kamu membeli item saat ditemui.\n";
     cout << "* Jika ingin mencari lokasi toko terdekat, ketik 'toko'.\n";

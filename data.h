@@ -42,7 +42,7 @@ string toLower(const string& str) {
 // Data NPC
 enum class NPCType { GOBLIN, WANITA_ANEH, ANAK_KECIL, AYAH, PRIA_TUA, DWARFT, BANDIT_YANG_MENYAMAR, PEDAGANG_KELILING};
 
-
+// Data Player
 enum class Role {
     WARRIOR,
     MAGE,
@@ -86,6 +86,7 @@ struct Upgrade{
     int baseUpgrade_evade = 5;
 }; Upgrade upgrade_stats;
 
+// EXP untuk naik level
 int expThreshold = 100;
 
 void tampilkanStats(const PlayerStats& p) {
@@ -201,8 +202,8 @@ struct MonsterInstance {
         name = tmpl.name;
         type = t;
         level =  lvl;
-        hp = tmpl.baseHP; // HP monster berdasarkan level
-        hp += int(tmpl.baseHP * pow(1.23, lvl-1)); // HP monster berdasarkan level
+        hp = tmpl.baseHP; 
+        hp += int(tmpl.baseHP * pow(1.23, lvl-1)); 
         attack = tmpl.percAttack;
         magic = tmpl.percMagic;
         counter = tmpl.percCounter;
@@ -211,12 +212,12 @@ struct MonsterInstance {
         damageMagic = tmpl.damageMagic;
         damageCounter = tmpl.damageCounter;
         evadeChance = tmpl.evadeChance;
-        evadeChance += int(tmpl.evadeChance * pow(1.21, lvl - 1)); // Evade monster berdasarkan level
-        evadeChance = min(evadeChance, 85); // Batas maksimum evade chance
-        damageAttack += int(tmpl.damageAttack * pow(1.23, lvl - 1)); // Damage monster berdasarkan level
+        evadeChance += int(tmpl.evadeChance * pow(1.21, lvl - 1));
+        evadeChance = min(evadeChance, 85); 
+        damageAttack += int(tmpl.damageAttack * pow(1.23, lvl - 1)); 
         damageMagic += int(tmpl.damageMagic * pow(1.23, lvl - 1));
         damageCounter += int(tmpl.damageCounter * pow(1.23, lvl - 1));
-        expReward = int(tmpl.baseExp * pow(1.23, lvl - 1)); // EXP reward monster berdasarkan level
+        expReward = int(tmpl.baseExp * pow(1.23, lvl - 1)); 
     }
 };
 
@@ -269,7 +270,7 @@ map<string, pair<int, int>> arah = {
 // Menyimpan posisi saat ini
 pair<int, int> posisi = {0, 0};  // Posisi awal
 
-// Menyimpan edge yang telah dilewati (unik dan tidak berarah)
+// Menyimpan edge
 set<pair<pair<int, int>, pair<int, int>>> edges;
 
 // Menyimpan semua koordinat (vertex) yang sudah dikunjungi
@@ -278,7 +279,7 @@ set<pair<int, int>> vertices;
 map <pair<int, int>, vertexData> vertex_map;
 // MonsterInstance& enemy = vertex_map[posisi].monsters[0];
 
-// Inventory dengan stack
+// Inventory
 stack<string> inventoryStack;
 const int MAX_INVENTORY_SIZE = 3;
 

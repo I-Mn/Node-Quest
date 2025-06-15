@@ -26,7 +26,7 @@ Role PickRole(){
         case 4: return Role::TANK;
         default:
             cout << "Pilihan tidak valid";
-            return PickRole(); // Minta input ulang jika tidak valid
+            return PickRole();
     }
 }
 
