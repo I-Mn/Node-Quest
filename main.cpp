@@ -14,6 +14,8 @@ using namespace std;
 #include "battle.cpp"
 #include "alur.h"
 #include "help.h"
+#include "inventory.h"
+#include "roles.cpp"
 
 
 int main(){
@@ -25,6 +27,8 @@ int main(){
     vertex_map[posisi].tipe = Tipe::STORY;
     vertex_map[posisi].visited = 1;
     help();
+    createPlayer(player, player_stats);
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Bersihkan buffer input
     while (true) {
         checkExpAndLevelUp(player_stats);
         checkLevelAndUpdateStage(player_stats);

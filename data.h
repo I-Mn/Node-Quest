@@ -42,6 +42,14 @@ string toLower(const string& str) {
 // Data NPC
 enum class NPCType { GOBLIN, WANITA_ANEH, ANAK_KECIL, AYAH, PRIA_TUA, DWARFT, BANDIT_YANG_MENYAMAR, PEDAGANG_KELILING};
 
+
+enum class Role {
+    WARRIOR,
+    MAGE,
+    ROGUE,
+    TANK,
+};
+
 struct Player
 {
     int HP = 100;
@@ -50,7 +58,7 @@ struct Player
     int weapon_max_durability = 100;
     int armor_durability = 100;
     int armor_max_durability = 100;
-};
+}; Player player;
     struct PlayerStats {
     int hp = 300;
     int attack = 250;
@@ -61,6 +69,7 @@ struct Player
     int exp = 0;
     int level = 1;
     int stage = 0;
+    Role role = Role::WARRIOR; // Default role
 }; PlayerStats player_stats;
 
 struct Upgrade{
@@ -76,6 +85,20 @@ struct Upgrade{
     int baseUpgrade_counter = 50;
     int baseUpgrade_evade = 5;
 }; Upgrade upgrade_stats;
+
+int expThreshold = 100;
+
+void tampilkanStats(const PlayerStats& p) {
+    cout << "\n=== Player Stats ===" << endl;
+    cout << "HP: " << p.hp << "\nAttack: " << p.attack << "\nMagic: " << p.magic
+         << "\nCounter: " << p.counter << "\nEvade: " << p.evade
+         << "\nSkill Point: " << p.skillPoint << endl;
+    cout << "Exp: " << p.exp << "\nLevel: " << p.level << endl;
+    cout << "Gold: " << player.gold << endl;
+    cout << "Sisa EXP untuk level up: " << expThreshold - p.exp << endl;
+    cout << "Stage:" << p.stage << endl;
+}
+
 
 // struct UpgradeNode {
 //     string statName;
@@ -177,7 +200,7 @@ struct MonsterInstance {
         name = tmpl.name;
         type = t;
         level = lvl;
-        hp = tmpl.baseHP + lvl * 10;
+        hp = static_cast<int>(tmpl.baseHP * pow(1.15, lvl - 1)); // HP monster berdasarkan level
         attack = tmpl.percAttack;
         magic = tmpl.percMagic;
         counter = tmpl.percCounter;
@@ -245,11 +268,10 @@ set<pair<pair<int, int>, pair<int, int>>> edges;
 set<pair<int, int>> vertices;
 
 map <pair<int, int>, vertexData> vertex_map;
-
-Player player;
 // MonsterInstance& enemy = vertex_map[posisi].monsters[0];
 
 // Inventory dengan stack
 stack<string> inventoryStack;
 const int MAX_INVENTORY_SIZE = 3;
+
 #endif
